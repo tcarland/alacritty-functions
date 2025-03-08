@@ -1,0 +1,11 @@
+---
+alacritty_apt_packages:
+  - build-essential
+  - cargo
+  - cmake
+  - git
+  - libfreetype6-dev
+  - libfontconfig1-dev
+  - libxcb-xfixes0-dev
+  - libxkbcommon-dev
+  - pkg-config

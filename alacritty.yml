@@ -1,0 +1,7 @@
+---
+- name: Install Alacritty Term
+  hosts: all
+  gather_facts: true
+  tags: ['term']
+  roles:
+   - 'alacritty'

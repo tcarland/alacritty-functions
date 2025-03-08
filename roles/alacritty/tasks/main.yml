@@ -1,0 +1,12 @@
+---
+- name: Install Packages (apt)
+  become: true
+  tags: ['term']
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+  ansible.builtin.apt:
+    name: '{{ alacritty_apt_packages }}'
+    state: present
+
+- name: Install task
+  tags: ['term']
+  ansible.builtin.include_tasks: install-alacritty.yml
