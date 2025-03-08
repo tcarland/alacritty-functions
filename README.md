@@ -1,11 +1,12 @@
-Alacritty Functions
-===================
+Alacritty Functions v25.03
+===========================
 
-Provides additional functions for managing [Alacritty](https://github.com/alacritty/alacritty)
-terminals adding *Bash* functions for creating and managing profiles defining 
-different Alacritty configurations. This allows for dynmamic adjustment of 
-various options such as themes, window opacity, fonts and font sizes.
+Provides an Ansible role and additional *Bash* functions for 
+installing and managing [Alacritty](https://github.com/alacritty/alacritty) 
+terminals on Debian Linux-based hosts.
 
-The repository also provides an Ansible playbook for installing Alacritty on
-Linux hosts.
-
+The *Bash* functions included offers additional functionality 
+for creating and managing profiles by defining multiple Alacritty 
+configurations. This allows for the dynmamic, real-time adjustment 
+of various Alacritty features such as themes, window opacity, and 
+font sizes.

@@ -1,6 +1,6 @@
 [general]
 import = [ "~/.config/alacritty/themes/ubuntu.toml" ]
-working_directory = "/home/tca"
+working_directory = "${HOME}"
 live_config_reload = true
 ipc_socket = true
 
