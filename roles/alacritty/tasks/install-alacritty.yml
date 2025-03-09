@@ -1,4 +1,3 @@
----
 - name: Install Alacritty
   become: true
   tags: ['term']
@@ -6,7 +5,7 @@
     - name: Git checkout
       ansible.builtin.git:
         repo: 'https://github.com/alacritty/alacritty.git'
-        dest: {{ alacritty_install_dir }}
+        dest: '{{ alacritty_install_dir }}'
         version: '{{ alacritty_version }}'
     - name: Build Alacritty
       ansible.builtin.shell: 'cd {{ alacritty_install_dir }} && cargo build --release'
@@ -27,13 +26,13 @@
         state: directory
     - name: Copy alacritty config template
       ansible.builtin.copy:
-        src: "alacritty-template.toml"
-        dest: "~/.config/alacritty/alacritty-template.toml"
+        src: 'alacritty-template.toml'
+        dest: '~/.config/alacritty/alacritty-template.toml'
         mode: '0644'
     - name: Copy alacritty_functions
       ansible.builtin.copy:
         src: "alacritty_functions.sh"
-        dest: "~/.config/alacritty/alacritty_functions.sh"
+        dest: '~/.config/alacritty/alacritty_functions.sh'
         mode: '0644'
     - name: Install shell completion
       ansible.builtin.shell: 'cp {{ alacritty_install_dir }}/extra/completions/alacritty.bash ~/.config/alacritty/'
