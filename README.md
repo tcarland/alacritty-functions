@@ -11,7 +11,6 @@ configurations. This allows for the dynmamic, real-time adjustment
 of various Alacritty features such as themes, window opacity, and 
 font sizes.
 
-
 ## Requirements
 
 Ansible 8.5.0+ is required to install the Alacritty playbook.
@@ -75,7 +74,7 @@ Current Profile:
  - default
  ```
 
-Note the current profile is still listed as *default* above as 
+Note the current profile here is still listed as *default* above as 
 the *critty_profiles* function was still executed in the original 
 shell session/window since *critty_new* creates a new terminal 
 window.
