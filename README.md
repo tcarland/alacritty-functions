@@ -10,3 +10,10 @@ for creating and managing profiles by defining multiple Alacritty
 configurations. This allows for the dynmamic, real-time adjustment 
 of various Alacritty features such as themes, window opacity, and 
 font sizes.
+
+
+## Requirements
+
+Ansible 8.5.0+ is required to install the Alacritty playbook.
+The Bash functions require Bash 4+
+

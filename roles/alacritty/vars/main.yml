@@ -1,5 +1,6 @@
 ---
 alacritty_apt_packages:
+  - bash
   - build-essential
   - cargo
   - cmake
