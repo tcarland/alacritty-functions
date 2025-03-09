@@ -1,0 +1,7 @@
+---
+- name: Install Alacritty terminfo
+  hosts: all
+  gather_facts: true
+  tags: ['terminfo']
+  roles:
+   - 'alacritty'
