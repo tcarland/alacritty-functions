@@ -15,13 +15,24 @@
       ansible.builtin.shell: 'cp {{ alacritty_install_dir }}/extra/logo/alacritty-term.svg /usr/share/pixmaps/Alacritty.svg'
     - name: Install desktop entry
       ansible.builtin.shell: 'desktop-file-install {{ alacritty_install_dir }}/extra/linux/Alacritty.desktop && update-desktop-database'
+      #sudo tic -xe alacritty,alacritty-direct extra/alacritty.info
+
+- name: Alacritty Terminfo
+  become: true
+  tags: ['terminfo']
+  ansible.builtin.shell: |
+    if ! infocmp alacritty; then 
+        tic -xe alacritty,alacritty-direct {{ alacritty_install_dir }}/extra/alacritty.info;
+    fi
+  args:
+    executable: /bin/bash
 
 - name: Alacritty Configuration
   tags: ['term']
   block:
     - name: Ensure target path is created
       ansible.builtin.file:
-        path: '{{ alacritty_config_dir }}'
+        path: '~/.config/alacritty'
         mode: '0755'
         state: directory
     - name: Copy alacritty config template

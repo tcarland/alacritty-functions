@@ -4,9 +4,21 @@ alacritty_apt_packages:
   - build-essential
   - cargo
   - cmake
+  - g++
   - git
+  - libegl1-mesa-dev
   - libfreetype6-dev
   - libfontconfig1-dev
   - libxcb-xfixes0-dev
   - libxkbcommon-dev
   - pkg-config
+  - python3
+
+alacritty_dnf_packages:
+  - cmake 
+  - freetype-devel
+  - fontconfig-devel
+  - libxcb-devel
+  - libxkbcommon-devel
+
+#dnf group install "Development Tools"
