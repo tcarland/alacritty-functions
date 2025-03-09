@@ -4,7 +4,7 @@
 #  Timothy C. Arland <tcarland@gmail.com>
 #
 export ALACRITTY_FUNCTIONS_VERSION="v25.03.10"
-export ALACRITTY_CONFIG_HOME="~/.config/alacritty"
+export ALACRITTY_CONFIG_HOME="${HOME}/.config/alacritty"
 
 export ALACRITTY_CONFIG_TEMPLATE="${ALACRITTY_CONFIG_HOME}/alacritty-template.toml"
 export ALACRITTY_PROFILE_NAME="${ALACRITTY_PROFILE_NAME:-default}"
@@ -18,7 +18,7 @@ function critty_functions_list()
 
 function critty_new()
 {
-    local name="$1"
+    local name="${1:-default}"
     local config="${ALACRITTY_CONFIG_HOME}/alacritty-${name}.toml"
 
     if [ -z "$name" ]; then
@@ -27,7 +27,7 @@ function critty_new()
     fi
 
     export ALACRITTY_PROFILE_NAME="$name"
-    ( critty_config $config && alacritty --config-file $config >/dev/null 2>&1 & )
+    ( critty_config $config && alacritty --config-file $ALACRITTY_CONFIG >/dev/null 2>&1 & )
     
     return $?
 }
@@ -39,16 +39,14 @@ function critty_config()
     local name="${ALACRITTY_PROFILE_NAME:-default}"
     local rt=0
 
-    if [ -z "$config"  ]; then
-        if [ "$name" == "default" ]; then
-            config="${ALACRITTY_CONFIG_HOME}/alacritty.toml"
-        else
-            config="${ALACRITTY_CONFIG_HOME}/alacritty-${name}.toml"
-        fi
+    if [ "$name" == "default" ]; then
+        config="${ALACRITTY_CONFIG_HOME}/alacritty.toml"
     fi
-
+    if [ -z "$config" ]; then
+        config="${ALACRITTY_CONFIG_HOME}/alacritty-${name}.toml"
+    fi
     if [[ ! -f $config ]]; then
-        cat "${ALACRITTY_CONFIG_TEMPLATE}" | envsubst > $config
+        cat "${ALACRITTY_CONFIG_TEMPLATE}" 2>/dev/null | envsubst > $config
     fi
 
     export ALACRITTY_CONFIG="$config"
