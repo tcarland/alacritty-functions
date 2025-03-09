@@ -6,6 +6,7 @@ alacritty_apt_packages:
   - cmake
   - g++
   - git
+  - gzip
   - libegl1-mesa-dev
   - libfreetype6-dev
   - libfontconfig1-dev
@@ -13,6 +14,7 @@ alacritty_apt_packages:
   - libxkbcommon-dev
   - pkg-config
   - python3
+  - scdoc
 
 alacritty_dnf_packages:
   - cmake 
