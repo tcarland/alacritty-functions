@@ -11,10 +11,13 @@ configurations. This allows for the dynmamic, real-time adjustment
 of various Alacritty features such as themes, window opacity, and 
 font sizes.
 
+
 ## Requirements
 
 Ansible 8.5.0+ is required to install the Alacritty playbook.
-The Bash functions require Bash 4+
+The Bash functions require Bash 4+, with Bash 5+ being fairly 
+standard on modern linux distributions. 
+
 
 ## Installation
 
@@ -30,6 +33,7 @@ Once the inventory is created, simply run *ansible-playbook*
 ansible-playbook -i hosts.yml alacritty-playbook.yml
 ```
 
+
 ## Alacritty Configuration
 
 Alacritty uses a *toml* configuration file that it will look
@@ -40,6 +44,7 @@ configuration.
 
 This initial configuration defines our *default* profile and 
 is used as the initial configuration. 
+
 
 ## Alacritty Profiles
 

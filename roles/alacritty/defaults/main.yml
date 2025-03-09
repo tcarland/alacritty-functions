@@ -2,4 +2,3 @@
 alacritty_version: "v0.15.1"
 alacritty_install_dir: "/opt/alacritty/alacritty"
 alacritty_themes_dir: "/opt/alacritty/alacritty_themes"
-alacritty_config_dir: "~/.config/alacritty"

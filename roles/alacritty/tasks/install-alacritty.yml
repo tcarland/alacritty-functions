@@ -26,17 +26,17 @@
         mode: '0755'
         state: directory
     - name: Copy alacritty config template
-      ansible.builtin.template:
-        src: "alacritty-template.toml.j2"
-        dest: "{{ alacritty_config_dir }}/alacritty-template.toml"
+      ansible.builtin.copy:
+        src: "alacritty-template.toml"
+        dest: "~/.config/alacritty/alacritty-template.toml"
         mode: '0644'
     - name: Copy alacritty_functions
-      ansible.builtin.template:
-        src: "alacritty_functions.sh.j2"
-        dest: "{{ alacritty_config_dir }}/alacritty_functions.sh"
+      ansible.builtin.copy:
+        src: "alacritty_functions.sh"
+        dest: "~/.config/alacritty/alacritty_functions.sh"
         mode: '0644'
     - name: Install shell completion
-      ansible.builtin.shell: 'cp {{ alacritty_install_dir }}/extra/completions/alacritty.bash {{ alacritty_config_dir }}/'
+      ansible.builtin.shell: 'cp {{ alacritty_install_dir }}/extra/completions/alacritty.bash ~/.config/alacritty/'
 
 - name: Install Alacritty Themes
   tags: ['term']
@@ -49,5 +49,5 @@
     - name: Create themes link
       ansible.builtin.file:
         src: '{{ alacritty_themes_dir }}/themes'
-        dest: '{{ alacritty_config_dir }}/themes'
+        dest: '~/.config/alacritty/themes'
         state: link
