@@ -1,2 +1,9 @@
 *.sw*
+*.rpm
+*.tar*
+*.jar
+*.zip
+*.pdf
+.venv
 .ansible
+inventory/*
