@@ -1,5 +1,8 @@
+# .alacritty-${ALACRITTY_PROFILE_NAME}.toml
+#
+
 [general]
-import = [ "~/.config/alacritty/themes/ubuntu.toml" ]
+import = [ "{{ alacritty_config_dir }}/themes/ubuntu.toml" ]
 working_directory = "${HOME}"
 live_config_reload = true
 ipc_socket = true
@@ -15,7 +18,7 @@ dynamic_padding = true
 decorations = "Full"
 opacity = 0.99
 blur = true
-title = "Alacritty"
+title = "${ALACRITTY_PROFILE_NAME}"
 dynamic_title = true
 resize_increments = false
 
@@ -25,7 +28,7 @@ multiplier = 3
 
 [font]
 normal = { family = "Ubuntu Mono", style = "Regular" }
-size=9
+size = 9
 
 [colors.primary]
 #foreground = "#d8d8d8"
@@ -43,11 +46,11 @@ bindings = [
 
 [keyboard]
 bindings = [
-    { key = "N", mods = "Control|Shift", action = "CreateNewWindow" },
+    #{ key = "T", mods = "Control|Shift", action = "CreateNewTab" }, # macos only
+    { key = "N", mods = "Control|Shift", action = "CreateNewWindow" }
 ]
 
 [debug]
 render_timer = false
-persistent_logging = true
+persistent_logging = false
 log_level = "Info"
-

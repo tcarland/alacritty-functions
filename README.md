@@ -32,3 +32,29 @@ ansible-playbook -i hosts.yml alacritty-playbook.yml
 ```
 
 ## Alacritty Configuration
+
+Alacritty uses a *toml* configuration file that it will look
+for in a few standard locations. The provided Ansible and 
+the added Bash functions will use the standard location of 
+*${HOME}/.config/alacritty/alacritty.toml* for the default
+configuration. 
+
+This initial configuration defines our *default* profile 
+and is used as the initial configuration. 
+
+## Alacritty Profiles
+
+The profile handling abilites come from the provided Bash 
+script installed as *~/.config/alacritty/alacritty_functions.sh*
+and should be added to *.bashrc* along with the provided 
+bash_completion script
+```bash
+if [ -r  ~/.bash_completion/alacritty ]; then
+    source ~/.bash_completion/alacritty
+fi
+if [ -r ~/.config/alacritty/alacritty_functions.sh ]; then
+    source ~/.config/alacritty/alacritty_functions.sh
+    critty_config >/dev/null  # ensures initial config is created
+fi
+```
+
