@@ -17,6 +17,14 @@ Ansible 8.5.0+ is required to install the Alacritty playbook.
 The Bash functions require Bash 4+, with Bash 5+ being fairly standard on 
 modern linux distributions. 
 
+It is generally recommended, given the version nightmare that is Ansible,
+that a python virtual environment is used to install Ansible. If necessary,
+this may require the *python3-venv* and *python3-pip* distribution packages.
+```sh
+python3 -m venv pyenv
+source ./pyenv/bin/activate
+pip install -r requirements.txt
+```
 
 ## Installation
 
@@ -30,9 +38,11 @@ ansible-playbook -i "hostA," alacritty-install.yml
 ```
 
 Since *Alacritty* has its own *Terminfo*, a playbook is provided to install
-just the *terminfo* into remote hosts to avoid unknown TERM issues.
+just the *terminfo* into remote hosts to avoid unknown TERM issues. 
+Alternatively, the *xterm* or *xterm-256color* terminfo's have proven 
+reasonably compatible. 
 ```sh
-ansible-playbook -i "hostB,hostC" alacritty-terminfo.yml"
+ansible-playbook -i "remotehostB,remotehostC" alacritty-terminfo.yml"
 ```
 
 If a host inventory files is preferred instead, create a *hosts.yml*

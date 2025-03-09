@@ -1,8 +1,0 @@
----
-all:
-  hosts:
-    hostexample01:
-      ansible_host: 192.168.10.65
-  vars:
-    ansible_install_dir: "/opt/alacritty"
-    ansible_themes_dir: "/opt/alacritty_themes"
