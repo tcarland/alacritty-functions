@@ -1,3 +1,4 @@
+---
 - name: Install Alacritty
   become: true
   tags: ['term']
