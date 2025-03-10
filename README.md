@@ -3,7 +3,7 @@ Alacritty Functions v25.03.11
 
 Provides an Ansible role and additional *Bash* functions for installing 
 and managing [Alacritty](https://github.com/alacritty/alacritty) 
-terminals on Debian Linux-based hosts.
+terminals on Debian Linux-based hosts or MacOS (untested).
 
 The *Bash* functions included offers additional functionality for creating 
 and managing profiles by defining multiple Alacritty configurations. This 
@@ -80,6 +80,15 @@ if [ -r ~/.config/alacritty/alacritty_functions.sh ]; then
     source ~/.config/alacritty/alacritty_functions.sh
     critty_config >/dev/null  # ensures 'default' config is created
 fi
+```
+
+Additionally, Debian-based hosts often set color options for terminals via 
+*.bashrc*. Simply add the *alacritty* terminal name to the existing case 
+statement.
+```bash
+case "$TERM" in
+    xterm-color|*-256color|alacritty) color_prompt=yes ;;
+esac
 ```
 
 The function *critty_functions_list* provides the list of available functions 
