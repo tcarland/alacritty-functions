@@ -1,4 +1,11 @@
 ---
+- name: Ensure Alacritty config path is created
+  tags: ['term']
+  ansible.builtin.file:
+    path: '~/.config/alacritty'
+    mode: '0755'
+    state: directory
+
 - name: Install Alacritty (Linux)
   tags: ['term']
   ansible.builtin.include_tasks: alacritty-install-linux.yml
@@ -12,11 +19,6 @@
 - name: Alacritty Configuration
   tags: ['term']
   block:
-    - name: Ensure target path is created
-      ansible.builtin.file:
-        path: '~/.config/alacritty'
-        mode: '0755'
-        state: directory
     - name: Copy alacritty config template
       ansible.builtin.copy:
         src: 'alacritty-template.toml'
@@ -28,8 +30,9 @@
         dest: '~/.config/alacritty/alacritty_functions.sh'
         mode: '0644'
     - name: Install shell completion
-      ansible.builtin.shell: |
-        'cp {{ alacritty_install_dir }}/extra/completions/alacritty.bash ~/.config/alacritty/'
+      ansible.builtin.shell:
+        cmd: 'cp {{ alacritty_install_dir }}/extra/completions/alacritty.bash .'
+        chdir: '~/.config/alacritty/'
 
 - name: Install Alacritty Man Pages
   become: true

@@ -10,7 +10,7 @@
   become: true
   tags: ['term']
   block:
-    - name: Git checkout
+    - name: Git checkout alacritty
       ansible.builtin.git:
         repo: 'https://github.com/alacritty/alacritty.git'
         dest: '{{ alacritty_install_dir }}'
@@ -37,7 +37,7 @@
 - name: Install Alacritty Themes
   tags: ['term']
   block:
-    - name: Git checkout
+    - name: Git checkout themes
       become: true
       ansible.builtin.git:
         repo: 'https://github.com/alacritty/alacritty-theme.git'
