@@ -1,12 +1,59 @@
 ---
-- name: Install Packages (apt)
-  become: true
-  ansible.builtin.apt:
-    name: '{{ alacritty_apt_packages }}'
-    state: present
+- name: Install Alacritty (Linux)
+  tags: ['term']
+  ansible.builtin.include_tasks: alacritty-install-linux.yml
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
-  tags: ['term']
 
-- name: Install task
+- name: Install Alacritty (MacOS)
   tags: ['term']
-  ansible.builtin.include_tasks: install-alacritty.yml
+  ansible.builtin.include_tasks: alacritty-install-macos.yml
+  when: ansible_distribution == 'MacOSX'
+
+- name: Alacritty Configuration
+  tags: ['term']
+  block:
+    - name: Ensure target path is created
+      ansible.builtin.file:
+        path: '~/.config/alacritty'
+        mode: '0755'
+        state: directory
+    - name: Copy alacritty config template
+      ansible.builtin.copy:
+        src: 'alacritty-template.toml'
+        dest: '~/.config/alacritty/alacritty-template.toml'
+        mode: '0644'
+    - name: Copy alacritty_functions
+      ansible.builtin.copy:
+        src: "alacritty_functions.sh"
+        dest: '~/.config/alacritty/alacritty_functions.sh'
+        mode: '0644'
+    - name: Install shell completion
+      ansible.builtin.shell: |
+        'cp {{ alacritty_install_dir }}/extra/completions/alacritty.bash ~/.config/alacritty/'
+
+- name: Install Alacritty Man Pages
+  become: true
+  tags: ['term']
+  block:
+    - name: Ensure man1 path exists
+      ansible.builtin.file:
+        path: '/usr/local/share/man/man1'
+        mode: '0755'
+        state: directory
+    - name: Ensure man5 path exists
+      ansible.builtin.file:
+        path: '/usr/local/share/man/man5'
+        mode: '0755'
+        state: directory
+    - name: Install man1 pages
+      ansible.builtin.shell: |
+        scdoc < extra/man/alacritty.1.scd | gzip -c | \
+            sudo tee /usr/local/share/man/man1/alacritty.1.gz > /dev/null
+        scdoc < extra/man/alacritty-msg.1.scd | gzip -c | \
+            sudo tee /usr/local/share/man/man1/alacritty-msg.1.gz > /dev/null
+    - name: install man5 pages
+      ansible.builtin.shell: |
+        scdoc < extra/man/alacritty.5.scd | gzip -c | \
+            sudo tee /usr/local/share/man/man5/alacritty.5.gz > /dev/null
+        scdoc < extra/man/alacritty-bindings.5.scd | gzip -c | \
+            sudo tee /usr/local/share/man/man5/alacritty-bindings.5.gz > /dev/null
