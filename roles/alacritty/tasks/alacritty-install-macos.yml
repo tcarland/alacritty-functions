@@ -3,7 +3,8 @@
   tags: ['term']
   block:
   - name: Make tmp dir
-    ansible.builtin.command: 'mkdir -p ./tmp/'
+    ansible.builtin.command: 
+      cmd: 'mkdir -p ./tmp/'
   - name: Download Alacritty DMG
     ansible.builtin.get_url:
       url: '{{ alacritty_dmg_url }}'
@@ -13,7 +14,7 @@
     ansible.builtin.command: 
       cmd: 'hdiutil attach ./tmp/{{ alacritty_dmg }} -nobrowse -mountpoint ./tmp/Alacritty'
   - name: Copy Alacritty App
-    #become: true   # requires passwordless sudo setup, typically admin roles allow this
+    #become: true  # requires passwordless sudo setup, typically mac admin roles allow this
     ansible.builtin.shell: 
       cmd: 'cp -aR ./tmp/Alacritty/Alacritty.app /Applications/Alacritty.app'
   - name: Detach DMG

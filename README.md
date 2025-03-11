@@ -78,7 +78,7 @@ if [ -r  ~/.bash_completion/alacritty ]; then
 fi
 if [ -r ~/.config/alacritty/alacritty_functions.sh ]; then
     source ~/.config/alacritty/alacritty_functions.sh
-    critty_config >/dev/null  # ensures 'default' config is created
+    critty_config >/dev/null  # ensures a 'default' config is created
 fi
 ```
 
@@ -120,14 +120,14 @@ and the Alacritty theme. Use *critty_themes* to get a list of
 available themes. These settings are defined and saved in a profile specific 
 configuration.
 
-|  Function    |  Description                       |  Default Value  |
-|--------------|------------------------------------|-----------------|
-| critty_new   | Creates a new profile and window   |   'default'       |
-| critty_font  | Sets the current profile font size |     9      |
-| critty_win   | Sets the window dimensions         | 75 col x 32 rows |
-| critty_opac  | Sets the window opacity            |    .99     |
-| critty_theme | Sets the current window theme      |  Ubuntu         |
-| critty_themes | The list of available themes      |     n/a         |
+|  Function     |  Description                       |   Default Value  |
+|---------------|------------------------------------|------------------|
+| critty_new    | Creates a new profile and window   |   'default'      |
+| critty_font   | Sets the current profile font size |     9            |
+| critty_win    | Sets the window dimensions         | 75 col x 32 rows |
+| critty_opac   | Sets the window opacity            |    .99           |
+| critty_theme  | Sets the current window theme      |  Ubuntu          |
+| critty_themes | The list of available themes       |     n/a          |
 
 Each function will show the current value when no parameters are provided. 
 A few pre-configured themes are provided via additional fucntions.
