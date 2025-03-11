@@ -17,10 +17,10 @@ alacritty_apt_packages:
   - scdoc
 
 alacritty_dnf_packages:
-  - cmake 
+  - cmake
   - freetype-devel
   - fontconfig-devel
   - libxcb-devel
   - libxkbcommon-devel
 
-#dnf group install "Development Tools"
+# dnf group install "Development Tools"

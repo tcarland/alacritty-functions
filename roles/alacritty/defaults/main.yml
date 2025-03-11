@@ -1,8 +1,8 @@
 ---
 alacritty_version: "v0.15.1"
-alacritty_install_dir: "/opt/alacritty/alacritty"
-alacritty_themes_dir: "/opt/alacritty/alacritty_themes"
 
-alacritty_dmg: "Alacritty-{{ alacritty_version  }}.dmg"
-alacritty_dmg_url: "https://github.com/alacritty/alacritty/releases/download/{{ alacritty_version }}/{{ alacritty_dmg }}"
+alacritty_install_dir: '/opt/alacritty/alacritty'
+alacritty_themes_dir: '/opt/alacritty/alacritty_themes'
 
+alacritty_dmg: 'Alacritty-{{ alacritty_version  }}.dmg'
+alacritty_dmg_url: 'https://github.com/alacritty/alacritty/releases/download/{{ alacritty_version }}/{{ alacritty_dmg }}'

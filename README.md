@@ -1,9 +1,9 @@
-Alacritty Functions v25.03.10
+Alacritty Functions v25.03.11
 =============================
 
 Provides an Ansible role and additional *Bash* functions for installing 
 and managing [Alacritty](https://github.com/alacritty/alacritty) 
-terminals on Debian Linux-based hosts.
+terminals on Debian Linux-based hosts or MacOS (untested).
 
 The *Bash* functions included offers additional functionality for creating 
 and managing profiles by defining multiple Alacritty configurations. This 
@@ -78,8 +78,17 @@ if [ -r  ~/.bash_completion/alacritty ]; then
 fi
 if [ -r ~/.config/alacritty/alacritty_functions.sh ]; then
     source ~/.config/alacritty/alacritty_functions.sh
-    critty_config >/dev/null  # ensures 'default' config is created
+    critty_config >/dev/null  # ensures a 'default' config is created
 fi
+```
+
+Additionally, Debian-based hosts often set color options for terminals via 
+*.bashrc*. Simply add the *alacritty* terminal name to the existing case 
+statement.
+```bash
+case "$TERM" in
+    xterm-color|*-256color|alacritty) color_prompt=yes ;;
+esac
 ```
 
 The function *critty_functions_list* provides the list of available functions 
@@ -111,14 +120,14 @@ and the Alacritty theme. Use *critty_themes* to get a list of
 available themes. These settings are defined and saved in a profile specific 
 configuration.
 
-|  Function    |  Description                       |  Default Value  |
-|--------------|------------------------------------|-----------------|
-| critty_new   | Creates a new profile and window   |   'default'       |
-| critty_font  | Sets the current profile font size |     9      |
-| critty_win   | Sets the window dimensions         | 75 col x 32 rows |
-| critty_opac  | Sets the window opacity            |    .99     |
-| critty_theme | Sets the current window theme      |  Ubuntu         |
-| critty_themes | The list of available themes      |     n/a         |
+|  Function     |  Description                       |   Default Value  |
+|---------------|------------------------------------|------------------|
+| critty_new    | Creates a new profile and window   |   'default'      |
+| critty_font   | Sets the current profile font size |     9            |
+| critty_win    | Sets the window dimensions         | 75 col x 32 rows |
+| critty_opac   | Sets the window opacity            |    .99           |
+| critty_theme  | Sets the current window theme      |  Ubuntu          |
+| critty_themes | The list of available themes       |     n/a          |
 
 Each function will show the current value when no parameters are provided. 
 A few pre-configured themes are provided via additional fucntions.

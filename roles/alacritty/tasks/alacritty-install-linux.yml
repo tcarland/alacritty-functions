@@ -10,8 +10,8 @@
   become: true
   tags: ['term']
   block:
-    - name: Git checkout
-      ansible.builtin.git:
+    - name: Git checkout alacritty
+      ansible.builtin.git: # noqa: git-latest
         repo: 'https://github.com/alacritty/alacritty.git'
         dest: '{{ alacritty_install_dir }}'
         version: '{{ alacritty_version }}'
@@ -28,7 +28,7 @@
   become: true
   tags: ['terminfo']
   ansible.builtin.shell: |
-    if ! infocmp alacritty; then 
+    if ! infocmp alacritty; then
         tic -xe alacritty,alacritty-direct {{ alacritty_install_dir }}/extra/alacritty.info;
     fi
   args:
@@ -37,9 +37,9 @@
 - name: Install Alacritty Themes
   tags: ['term']
   block:
-    - name: Git checkout
+    - name: Git checkout themes
       become: true
-      ansible.builtin.git:
+      ansible.builtin.git: # noqa: git-latest
         repo: 'https://github.com/alacritty/alacritty-theme.git'
         dest: '{{ alacritty_themes_dir }}'
     - name: Create themes link
