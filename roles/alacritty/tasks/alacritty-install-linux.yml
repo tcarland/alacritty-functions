@@ -28,7 +28,7 @@
   become: true
   tags: ['terminfo']
   ansible.builtin.shell: |
-    if ! infocmp alacritty; then 
+    if ! infocmp alacritty; then
         tic -xe alacritty,alacritty-direct {{ alacritty_install_dir }}/extra/alacritty.info;
     fi
   args:

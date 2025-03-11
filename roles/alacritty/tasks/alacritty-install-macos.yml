@@ -2,28 +2,28 @@
 - name: Install Alacritty from DMG
   tags: ['term']
   block:
-  - name: Make tmp dir
-    ansible.builtin.command: 
-      cmd: 'mkdir -p ./tmp/'
-  - name: Download Alacritty DMG
-    ansible.builtin.get_url:
-      url: '{{ alacritty_dmg_url }}'
-      dest: './tmp/{{ alacritty_dmg }}'
-      mode: '0644'
-  - name: Attach DMG
-    ansible.builtin.command: 
-      cmd: 'hdiutil attach ./tmp/{{ alacritty_dmg }} -nobrowse -mountpoint ./tmp/Alacritty'
-  - name: Copy Alacritty App
-    #become: true  # requires passwordless sudo setup, typically mac admin roles allow this
-    ansible.builtin.shell: 
-      cmd: 'cp -aR ./tmp/Alacritty/Alacritty.app /Applications/Alacritty.app'
-  - name: Detach DMG
-    ansible.builtin.command: 
-      cmd: 'hdiutil detach ./tmp/{{ alacritty_dmg }}/'
-  - name: Remove tmp dir
-    ansible.builtin.command: 
-      cmd: 'rm -R ./tmp/'
-  - name: Zsh Completion
-    ansible.builtin.shell: |
-      mkdir -p ${ZDOTDIR:-~}/.zsh_functions && \
-      echo 'fpath+=${ZDOTDIR:-~}/.zsh_functions' >> ${ZDOTDIR:-~}/.zshrc
+    - name: Make tmp dir
+      ansible.builtin.command:
+        cmd: 'mkdir -p ./tmp/'
+    - name: Download Alacritty DMG
+      ansible.builtin.get_url:
+        url: '{{ alacritty_dmg_url }}'
+        dest: './tmp/{{ alacritty_dmg }}'
+        mode: '0644'
+    - name: Attach DMG
+      ansible.builtin.command:
+        cmd: 'hdiutil attach ./tmp/{{ alacritty_dmg }} -nobrowse -mountpoint ./tmp/Alacritty'
+    - name: Copy Alacritty App
+      #become: true  # requires passwordless sudo setup, typically mac admin roles allow this
+      ansible.builtin.shell: 
+        cmd: 'cp -aR ./tmp/Alacritty/Alacritty.app /Applications/Alacritty.app'
+    - name: Detach DMG
+      ansible.builtin.command:
+        cmd: 'hdiutil detach ./tmp/{{ alacritty_dmg }}/'
+    - name: Remove tmp dir
+      ansible.builtin.command:
+        cmd: 'rm -R ./tmp/'
+    - name: Zsh Completion
+      ansible.builtin.shell: |
+        mkdir -p ${ZDOTDIR:-~}/.zsh_functions && \
+        echo 'fpath+=${ZDOTDIR:-~}/.zsh_functions' >> ${ZDOTDIR:-~}/.zshrc
