@@ -11,7 +11,7 @@
   tags: ['term']
   block:
     - name: Git checkout alacritty
-      ansible.builtin.git:
+      ansible.builtin.git: # noqa: git-latest
         repo: 'https://github.com/alacritty/alacritty.git'
         dest: '{{ alacritty_install_dir }}'
         version: '{{ alacritty_version }}'
@@ -39,7 +39,7 @@
   block:
     - name: Git checkout themes
       become: true
-      ansible.builtin.git:
+      ansible.builtin.git: # noqa: git-latest
         repo: 'https://github.com/alacritty/alacritty-theme.git'
         dest: '{{ alacritty_themes_dir }}'
     - name: Create themes link

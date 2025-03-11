@@ -14,8 +14,8 @@
       ansible.builtin.command:
         cmd: 'hdiutil attach ./tmp/{{ alacritty_dmg }} -nobrowse -mountpoint ./tmp/Alacritty'
     - name: Copy Alacritty App
-      #become: true  # requires passwordless sudo setup, typically mac admin roles allow this
-      ansible.builtin.shell: 
+      # become: true  # requires passwordless sudo setup, typically mac admin roles allow this
+      ansible.builtin.shell:
         cmd: 'cp -aR ./tmp/Alacritty/Alacritty.app /Applications/Alacritty.app'
     - name: Detach DMG
       ansible.builtin.command:

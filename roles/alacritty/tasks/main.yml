@@ -55,7 +55,7 @@
             sudo tee /usr/local/share/man/man1/alacritty.1.gz > /dev/null
         scdoc < extra/man/alacritty-msg.1.scd | gzip -c | \
             sudo tee /usr/local/share/man/man1/alacritty-msg.1.gz > /dev/null
-    - name: install man5 pages
+    - name: Install man5 pages
       ansible.builtin.shell: |
         set -o pipefail
         scdoc < extra/man/alacritty.5.scd | gzip -c | \
