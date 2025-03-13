@@ -1,4 +1,4 @@
-Alacritty Functions v25.03.11
+Alacritty Functions v25.03.13
 =============================
 
 Provides an Ansible role and additional *Bash* functions for installing 
