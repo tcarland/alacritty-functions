@@ -17,4 +17,4 @@ jobs:
       - name: Ansible Lint
         uses: ansible/ansible-lint@main
         with:
-          args: --force-color
+          args: --force-color -c .ansible-lint . roles/

@@ -1,0 +1,7 @@
+if [ -r  ~/.bash_completion/alacritty ]; then
+    source ~/.bash_completion/alacritty
+fi
+if [ -r ~/.config/alacritty/alacritty_functions.sh ]; then
+    source ~/.config/alacritty/alacritty_functions.sh
+    critty_config >/dev/null  # ensures a 'default' config is created
+fi

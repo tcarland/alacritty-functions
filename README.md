@@ -1,4 +1,4 @@
-Alacritty Functions v25.03.14
+Alacritty Functions v25.03.15
 =============================
 
 Provides an Ansible role and additional *Bash* functions for installing 
@@ -13,14 +13,14 @@ such as themes, window opacity, and font sizes.
 
 ## Requirements
 
-Ansible 8.5.0+ is required to install the Alacritty playbook, latest 
+ - Ansible 8.5.0+ is required to install the Alacritty playbook, latest 
 recommended and tested version is 9.3.0.
-The Bash functions require Bash 4+, with Bash 5+ being fairly standard on 
+ - The Bash functions require Bash 4+, with Bash 5+ being fairly standard on 
 modern linux distributions. 
 
 It is generally recommended, given the version nightmare that is Ansible,
-that a python virtual environment is used to install Ansible. If necessary,
-this may require the *python3-venv* and *python3-pip* distribution packages.
+that a Python virtual environment or *venv* is used to install Ansible. 
+This may require the *python3-venv* and *python3-pip* distribution packages.
 ```sh
 python3 -m venv pyenv
 source ./pyenv/bin/activate
