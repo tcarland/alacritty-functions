@@ -30,6 +30,9 @@ multiplier = 3
 normal = { family = "Ubuntu Mono", style = "Regular" }
 size = 9
 
+[hints]
+enabled = []
+
 [colors.primary]
 #foreground = "#d8d8d8"
 #background = "#2C001E"

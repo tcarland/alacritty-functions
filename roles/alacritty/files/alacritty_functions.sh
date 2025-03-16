@@ -3,7 +3,7 @@
 #
 #  Timothy C. Arland <tcarland@gmail.com>
 #
-export ALACRITTY_FUNCTIONS_VERSION="v25.03.15"
+export ALACRITTY_FUNCTIONS_VERSION="v25.03.16"
 export ALACRITTY_CONFIG_HOME="${HOME}/.config/alacritty"
 
 export ALACRITTY_CONFIG_TEMPLATE="${ALACRITTY_CONFIG_HOME}/alacritty-template.toml"
@@ -31,9 +31,9 @@ function critty_new()
         return 1
     fi
 
-    ( ALACRITTY_PROFILE_NAME="$name" critty_config $config && \
+    ( ALACRITTY_PROFILE_NAME="$name" critty_config $config >/dev/null && \
       ALACRITTY_PROFILE_NAME="$name" alacritty --config-file $config >/dev/null 2>&1 & )
-    
+
     return $?
 }
 
@@ -151,8 +151,8 @@ function critty_font()
     fi
 
     return 0
-} 
-           
+}
+
 
 function critty_opac()
 {
@@ -201,7 +201,7 @@ function crittylarge()
     critty_win 105 48
 }
 
-function crittylite() 
+function crittylite()
 {
     critty_theme "solarized_light"
     critty_font 10

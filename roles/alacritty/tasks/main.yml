@@ -60,3 +60,35 @@
             sudo tee /usr/local/share/man/man5/alacritty.5.gz > /dev/null
         scdoc < extra/man/alacritty-bindings.5.scd | gzip -c | \
             sudo tee /usr/local/share/man/man5/alacritty-bindings.5.gz > /dev/null
+
+- name: Update Bashrc
+  tags: ['term']
+  ansible.builtin.blockinfile:
+    path: '~/.bashrc'
+    create: true
+    state: present
+    mode: '0644'
+    block: |
+      if [ -r  ~/.bash_completion/alacritty ]; then
+          source ~/.bash_completion/alacritty
+      fi
+      if [ -r ~/.config/alacritty/alacritty_functions.sh ]; then
+          source ~/.config/alacritty/alacritty_functions.sh
+          critty_config >/dev/null  # ensures a 'default' config is created
+      fi
+  when: alacritty_update_bashrc
+
+- name: Update Bash Aliases
+  tags: ['term']
+  ansible.builtin.blockinfile:
+    path: '~/.bash_aliases'
+    create: true
+    state: present
+    mode: '0644'
+    block: |
+      alias alacritty_functions_list=critty_functions_list
+      alias alacritty_version=critty_version
+      alias alacritty_new=critty_new
+      alias alacritty_profiles=critty_profiles
+      alias critty_profile=critty_profiles
+  when: alacritty_update_aliases
