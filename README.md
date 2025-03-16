@@ -7,15 +7,15 @@ terminals on Debian Linux-based hosts or MacOS (untested).
 
 The *Bash* functions included offers additional functionality for creating
 and managing profiles by defining multiple Alacritty configurations. This
-allows for the dynmamic, real-time adjustment of various Alacritty features
-such as themes, window opacity, and font sizes.
+allows for the real-time adjustment of various Alacritty features such as
+themes, window opacity, and font sizes for an individual *profile*.
 
 
 ## Requirements
 
-It is generally recommended, given the version nightmare that is Ansible,
-that a Python virtual environment or *venv* is used to install Ansible.
-This may require the *python3-venv* and *python3-pip* distribution packages.
+It is recommended, given the version nightmare that is Ansible, that a
+Python virtual environment or *venv* is used to install Ansible. This may
+require the *python3-venv* and *python3-pip* distribution packages.
 ```sh
 python3 -m venv pyenv
 source ./pyenv/bin/activate
@@ -24,8 +24,8 @@ pip install -r requirements.txt
 
  - Ansible 8.5.0+ is required to install the Alacritty playbook, latest
 recommended and tested version is 9.3.0.
- - The Bash functions require Bash 4+, with Bash 5+ being fairly standard on
-modern linux distributions.
+ - The Bash functions require Bash 4+, with Bash 5+ being fairly standard
+on modern linux distributions.
 
 
 ## Installation
@@ -62,24 +62,25 @@ all:
     alacritty_update_aliases: false
 ```
 
+
 ## Alacritty Configuration
 
 Alacritty uses a *toml* configuration file that it will look for in a few
 standard locations. The provided Ansible and the Bash Functions will use the
 standard location of *${HOME}/.config/alacritty/alacritty.toml* for the default
 configuration. This configuration is used as the predefined *default* profile
-which is considered special.
+which is considered special by the profile handling.
 
 
-## Alacritty Profiles
+### Enabling Alacritty Profiles
 
 The profile handling abilites come from the provided Bash script installed
-as *~/.config/alacritty/alacritty_functions.sh* and should be added to *.bashrc*
+as *.config/alacritty/alacritty_functions.sh* and should be added to *.bashrc*
 along with the provided bash_completion script. The Ansible variables
 *alacritty_update_bashrc* and *alacritty_update_aliases* respectively can
-be used to update the *.bashrc* file and *.bash_aliaes* file. The block
-added to the *.bashrc* file is as follows. Note both of these variables
-are defaulted to *false*.
+be used to update the *.bashrc* file and *.bash_aliaes* file. The block added
+to the *.bashrc* file is as follows. Note both of these variables are defaulted
+to *false*.
 ```bash
 if [ -r  ~/.bash_completion/alacritty ]; then
     source ~/.bash_completion/alacritty
@@ -101,11 +102,11 @@ esac
 
 ### New and Existing Profiles
 
-The function *critty_functions_list* provides the list of available functions
-for managing terminal profiles. To create a new profile simply use the
-*critty_new* function. This will create a new terminal window with a profile
-specific configuration. This is the primary function for opening existing
-profiles or creating a new profile.
+The function *critty_functions_list* provides a list of available functions
+for managing terminal profiles. To create a new profile use the *critty_new*
+function. This will create a new terminal window with a profile specific
+configuration. This is the primary function for opening existing profiles or
+creating a new profile.
 ```bash
 critty_new profile2
 critty_profiles
@@ -119,25 +120,26 @@ Current Profile:
 
 Note the current profile above is still listed as *default* as the
 *critty_profiles* function was executed in the original shell window
-while *critty_new* creates a *new* terminal as the new profile.
+while *critty_new* creates a *new* terminal instance under the new profile.
 
 
 ### Alacritty Functions
 
 The profile functions support adjusting the default window size (when
-creating a new window), the window opacity, the terminal font size,
-and the Alacritty theme. Use *critty_themes* to get a list of
-available themes. These settings are defined and saved in a profile specific
-configuration.
+creating a new window), the window opacity, the font size, and the window
+theme. Use *critty_themes* to get a list of available themes. These settings
+are defined and saved in the profile specific configuration
+*.config/alacrity/alacritty-${ALACRITTY_PROFILE_NAME}.toml*.
 
-|  Function     |  Description                       |   Default Value  |
-|---------------|------------------------------------|------------------|
-| critty_new    | Creates a new profile and window   |   'default'      |
-| critty_font   | Sets the current profile font size |     9            |
-| critty_win    | Sets the window dimensions         | 75 col x 32 rows |
-| critty_opac   | Sets the window opacity            |    .99           |
-| critty_theme  | Sets the current window theme      |  Ubuntu          |
-| critty_themes | The list of available themes       |     n/a          |
+
+|  Function     |  Description                       |   Default Value    |
+|---------------|------------------------------------|--------------------|
+| critty_new    | Creates a new profile and window   |    'default'       |
+| critty_font   | Sets the current profile font size |        9           |
+| critty_win    | Sets the window dimensions         | '75x32' (rowsXcol) |
+| critty_opac   | Sets the window opacity            |      .99           |
+| critty_theme  | Sets the current window theme      |     Ubuntu         |
+| critty_themes | The list of available themes       |       n/a          |
 
 Each function will show the current value when no parameters are provided.
 A few pre-configured themes are provided via additional fucntions.
