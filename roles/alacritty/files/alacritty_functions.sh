@@ -3,7 +3,7 @@
 #
 #  Timothy C. Arland <tcarland@gmail.com>
 #
-export ALACRITTY_FUNCTIONS_VERSION="v25.03.16"
+export ALACRITTY_FUNCTIONS_VERSION="v25.03.23"
 export ALACRITTY_CONFIG_HOME="${HOME}/.config/alacritty"
 
 export ALACRITTY_CONFIG_TEMPLATE="${ALACRITTY_CONFIG_HOME}/alacritty-template.toml"
@@ -26,13 +26,9 @@ function critty_new()
     local name="${1:-default}"
     local config="${ALACRITTY_CONFIG_HOME}/alacritty-${name}.toml"
 
-    if [ -z "$name" ]; then
-        printf "critty_new() requires profile name \n" >&2
-        return 1
-    fi
+    config=$(ALACRITTY_PROFILE_NAME="$name" critty_config $config)
 
-    ( ALACRITTY_PROFILE_NAME="$name" critty_config $config >/dev/null && \
-      ALACRITTY_PROFILE_NAME="$name" alacritty --config-file $config >/dev/null 2>&1 & )
+    ( ALACRITTY_PROFILE_NAME="$name" alacritty --config-file $config >/dev/null 2>&1 & )
 
     return $?
 }
