@@ -1,4 +1,4 @@
-Alacritty Functions v25.03.16
+Alacritty Functions v25.03.23
 =============================
 
 Provides an Ansible role and additional *Bash* functions for installing
@@ -61,6 +61,19 @@ all:
     alacritty_update_bashrc: false
     alacritty_update_aliases: false
 ```
+
+### Ansible Tags
+
+A typical installation uses all tags centered around *term*, which is the
+primary installation. Additional tags can be specified to target parts of
+the playbook separately.
+
+|  Tag Name      |  Description                  |
+|----------------|-------------------------------|
+| *term*         | Builds and installs Alacritty |
+| *terminfo*     | Installs system TermInfo      |
+| *term-config*  | Installs bash configuration   |
+| *term-themes*  | Intalls Alacritty themes      |
 
 
 ## Alacritty Configuration

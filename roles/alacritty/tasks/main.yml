@@ -1,6 +1,6 @@
 ---
 - name: Ensure Alacritty config path is created
-  tags: ['term']
+  tags: ['term-config']
   ansible.builtin.file:
     path: '~/.config/alacritty'
     mode: '0755'
@@ -17,7 +17,7 @@
   when: ansible_distribution == 'MacOSX'
 
 - name: Alacritty Configuration
-  tags: ['term']
+  tags: ['term-config']
   block:
     - name: Copy alacritty config template
       ansible.builtin.copy:
@@ -62,7 +62,7 @@
             sudo tee /usr/local/share/man/man5/alacritty-bindings.5.gz > /dev/null
 
 - name: Update Bashrc
-  tags: ['term']
+  tags: ['term-config']
   ansible.builtin.blockinfile:
     path: '~/.bashrc'
     create: true
@@ -79,7 +79,7 @@
   when: alacritty_update_bashrc
 
 - name: Update Bash Aliases
-  tags: ['term']
+  tags: ['term-config']
   ansible.builtin.blockinfile:
     path: '~/.bash_aliases'
     create: true

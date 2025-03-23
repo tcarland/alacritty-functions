@@ -35,7 +35,7 @@
     executable: /bin/bash
 
 - name: Install Alacritty Themes
-  tags: ['term']
+  tags: ['term-themes']
   block:
     - name: Git checkout themes
       become: true
