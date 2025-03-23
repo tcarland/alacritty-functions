@@ -2,6 +2,6 @@
 - name: Install Alacritty Terminal
   hosts: all
   gather_facts: true
-  tags: ['term', 'term-config', 'terminfo', 'term-themes']
+  tags: ['term', 'terminfo', 'term-config', 'term-themes']
   roles:
    - 'alacritty'
