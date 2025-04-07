@@ -9,7 +9,7 @@
 - name: Install Alacritty (Linux)
   tags: ['term']
   ansible.builtin.include_tasks: alacritty-install-linux.yml
-  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu' or ansible_distribution == 'Pop!_OS'
 
 - name: Install Alacritty (MacOS)
   tags: ['term']
@@ -26,8 +26,13 @@
         mode: '0644'
     - name: Copy alacritty_functions
       ansible.builtin.copy:
-        src: "alacritty_functions.sh"
+        src: 'alacritty_functions.sh'
         dest: '~/.config/alacritty/alacritty_functions.sh'
+        mode: '0644'
+    - name: Copy alacritty_styles config
+      ansible.builtin.copy:
+        src: 'alacritty_styles.json'
+        dest: '~/.config/alacritty/alacritty_styles.json'
         mode: '0644'
     - name: Install shell completion
       ansible.builtin.shell:
@@ -90,5 +95,7 @@
       alias alacritty_version=critty_version
       alias alacritty_new=critty_new
       alias alacritty_profiles=critty_profiles
+      alias alacritty_styles=critty_styles
+      alias critty_opacity=critty_opac
       alias critty_profile=critty_profiles
   when: alacritty_update_aliases

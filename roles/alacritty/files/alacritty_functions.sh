@@ -3,11 +3,12 @@
 #
 #  Timothy C. Arland <tcarland@gmail.com>
 #
-export ALACRITTY_FUNCTIONS_VERSION="v25.03.23"
+export ALACRITTY_FUNCTIONS_VERSION="v25.04.04"
 export ALACRITTY_CONFIG_HOME="${HOME}/.config/alacritty"
 
 export ALACRITTY_CONFIG_TEMPLATE="${ALACRITTY_CONFIG_HOME}/alacritty-template.toml"
 export ALACRITTY_PROFILE_NAME="${ALACRITTY_PROFILE_NAME:-default}"
+export ALACRITTY_STYLE_CONFIG="${ALACRITTY_CONFIG_HOME}/alacritty_styles.json"
 export ALACRITTY_CONFIG="${ALACRITTY_CONFIG_HOME}/alacritty-${ALACRITTY_PROFILE_NAME}.toml"
 
 export C_NC='\e[0m'
@@ -101,6 +102,9 @@ function critty_theme()
     local line=
 
     if [ -n "$theme" ]; then
+        if [[ "$theme" == "null" ]]; then
+            return 1
+        fi
         if [[ ! -e ${ALACRITTY_CONFIG_HOME}/themes/$theme.toml ]]; then
             printf "${C_RED}ERROR${C_NC} alacritty theme not found for '$theme' \n"
             return 1
@@ -137,7 +141,7 @@ function critty_font()
     local size=$1
     local config="$(critty_config)"
 
-    if [[ -n $size && $size -gt 0 ]]; then
+    if [[ -n "$size" && $size -gt 0 ]]; then
         sed -i.bak "s/size = \(.*\)*$/size = $size/" $config
     fi
 
@@ -156,12 +160,15 @@ function critty_opac()
     local config="$(critty_config)"
 
     if [ -n "$opac" ]; then
+        if [[ "$opac" == "null" ]]; then
+            return 1
+        fi
         sed -i.bak "s/opacity = \(.*\)$/opacity = $opac/" $config
     fi
 
     if [ -r $config ]; then
         opac=$(cat $config | grep 'opacity =' | awk '{ print $3 }')
-        printf " critty opacity: $opac > \n"
+        printf " critty opacity: $opac \n"
     fi
 
     return 0
@@ -187,6 +194,73 @@ function critty_win()
 }
 
 
+function critty_set_style()
+{
+    local name="$1"
+    local theme="$2"
+    local size=$3
+    local opac=$4
+
+    if [[ -z "$name" || -z "$theme" ]]; then
+        echo "critty_set_style <name> <theme> <font_size> <opacity>"
+        echo "  where name is one of 'pro', 'dark', or 'lite'"
+        echo "  eg. critty_set_style pro oxocarbon 10 0.9"
+        return 1
+    fi
+
+    json=$(jq ".alacritty_styles.${name}.theme = \"$theme\"" $ALACRITTY_STYLE_CONFIG)
+    echo "$json" > $ALACRITTY_STYLE_CONFIG
+
+    if [ -n "$size" ]; then
+        json=$(jq ".alacritty_styles.$name.font_size = $size" $ALACRITTY_STYLE_CONFIG)
+        echo "$json" > $ALACRITTY_STYLE_CONFIG
+    fi
+
+    if [ -n "$opac" ]; then
+        json=$(jq ".alacritty_styles.${name}.opacity = $opac" $ALACRITTY_STYLE_CONFIG)
+        echo "$json" > $ALACRITTY_STYLE_CONFIG
+    fi
+
+    return 0
+}
+
+
+function critty_styles()
+{
+    echo "Alacritty Styles:"
+    ( jq -r '.alacritty_styles | keys[]' $ALACRITTY_STYLE_CONFIG )
+}
+
+
+function critty_style()
+{
+    local name="$1"
+
+    if [ -z "$name" ]; then
+        echo "Usage: critty_style() <name>"
+        critty_styles
+        return 0
+    fi
+
+    style=$(jq -r ".alacritty_styles.$name" $ALACRITTY_STYLE_CONFIG)
+
+    if [[ "$style" == "null" ]]; then
+        echo "critty_style '$style' not found"
+        return 1
+    fi
+
+    theme=$(echo "$style" | jq -r '.theme' -)
+    fontsz=$(echo "$style" | jq -r '.font_size' -)
+    opac=$(echo "$style" | jq -r '.opacity' -)
+
+    critty_theme "$theme"
+    critty_font $font_sz
+    critty_opac $opac
+
+    return 0
+}
+
+
 function crittysmall()
 {
     critty_win 75 32
@@ -199,23 +273,20 @@ function crittylarge()
 
 function crittylite()
 {
-    critty_theme "solarized_light"
-    critty_font 10
-    critty_opac 0.99
+    critty_style "lite"
+    return $?
 }
 
 function crittydark()
 {
-    critty_theme "ubuntu"
-    critty_font 9
-    critty_opac 0.8
+    critty_style "dark"
+    return $?
 }
 
 function crittypro()
 {
-    critty_theme "monokai_pro"
-    critty_font 9
-    critty_opac 0.90
+    critty_style "pro"
+    return $?
 }
 
 # alacritty_functions.sh

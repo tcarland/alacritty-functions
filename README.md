@@ -1,4 +1,4 @@
-Alacritty Functions v25.03.23
+Alacritty Functions v25.04.04
 =============================
 
 Provides an Ansible role and additional *Bash* functions for installing
@@ -22,10 +22,10 @@ source ./pyenv/bin/activate
 pip install -r requirements.txt
 ```
 
- - Ansible 8.5.0+ is required to install the Alacritty playbook, latest
-recommended and tested version is 9.3.0.
- - The Bash functions require Bash 4+, with Bash 5+ being fairly standard
-on modern linux distributions.
+- Ansible 8.5.0+ is the required minimum to install the Alacritty playbook,
+  latest recommended and tested version is **v9.3.0**.
+- The Bash functions require Bash 4+, with Bash 5+ being fairly standard
+  on modern linux distributions.
 
 
 ## Installation
@@ -72,8 +72,8 @@ the playbook separately.
 |----------------|-------------------------------|
 | *term*         | Builds and installs Alacritty |
 | *terminfo*     | Installs system TermInfo      |
-| *term-config*  | Installs bash configuration   |
-| *term-themes*  | Intalls Alacritty themes      |
+| *term-config*  | Installs bash configuration and functions |
+| *term-themes*  | Installs Alacritty themes      |
 
 
 ## Alacritty Configuration
@@ -145,18 +145,31 @@ are defined and saved in the profile specific configuration
 *.config/alacrity/alacritty-${ALACRITTY_PROFILE_NAME}.toml*.
 
 
-|  Function     |  Description                       |   Default Value    |
-|---------------|------------------------------------|--------------------|
-| critty_new    | Creates a new profile and window   |    'default'       |
-| critty_font   | Sets the current profile font size |        9           |
-| critty_win    | Sets the window dimensions         | '75x32' (rowsXcol) |
-| critty_opac   | Sets the window opacity            |      .99           |
-| critty_theme  | Sets the current window theme      |     Ubuntu         |
-| critty_themes | The list of available themes       |       n/a          |
+|  Function        |  Description                       |   Default Value    |
+|------------------|------------------------------------|--------------------|
+| critty_new       | Creates a new profile and window   |    'default'       |
+| critty_font      | Sets the current profile font size |        9           |
+| critty_win       | Sets the window dimensions         | '75x32' (rowsXcol) |
+| critty_opac      | Sets the window opacity            |      .99           |
+| critty_theme     | Sets the current window theme      |     Ubuntu         |
+| critty_themes    | The list of available themes       |       n/a          |
+| critty_style     | Switch to a preset style/theme     |     'dark'         |
+| critty_set_style | Set or create a style setting      |       n/a          |
+| critty_styles    | List of available styles           |       n/a          |
 
-Each function will show the current value when no parameters are provided.
-A few pre-configured themes are provided via additional fucntions.
+Most` functions will show the current value when no parameters are provided.
+A few pre-configured set of theme *styles* are provided via additional
+functions.
 
 - *crittypro*  - Sets the *monokai_pro* theme with less transparency.
 - *crittylite* - Sets the theme as *solarized_light* with no transparency.
 - *crittydark* - Sets the default theme of *Ubuntu* with some transparency.
+
+### Alacritty Styles
+
+These are simply wrappers to the *critty_style()* function, thus the
+function *crittypro* is the same as running `critty_style pro`. New styles
+can be created or existing styles updated via *critty_set_style*.
+```sh
+critty_set_style pro catppuccin_mocha 9 0.98
+```
