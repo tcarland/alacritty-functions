@@ -3,7 +3,7 @@
 #
 #  Timothy C. Arland <tcarland@gmail.com>
 #
-export ALACRITTY_FUNCTIONS_VERSION="v25.04.04"
+export ALACRITTY_FUNCTIONS_VERSION="v25.04.08"
 export ALACRITTY_CONFIG_HOME="${HOME}/.config/alacritty"
 
 export ALACRITTY_CONFIG_TEMPLATE="${ALACRITTY_CONFIG_HOME}/alacritty-template.toml"
@@ -18,7 +18,7 @@ export C_CYN='\e[96m'
 
 function critty_functions_list()
 {
-    declare -F | awk '{ print $NF }' | sort | egrep -v "^_" | grep "^critty"
+    declare -F | awk '{ print $NF }' | sort | egrep -v "^_" | grep "^critty" | sort
 }
 
 
@@ -228,7 +228,15 @@ function critty_set_style()
 function critty_styles()
 {
     echo "Alacritty Styles:"
-    ( jq -r '.alacritty_styles | keys[]' $ALACRITTY_STYLE_CONFIG )
+    styles=$(jq -r '.alacritty_styles | keys[]' $ALACRITTY_STYLE_CONFIG)
+    printf "  ${C_GRN}%08s     %18s${C_NC}     [fontsz]  [opacity] \n" "<style>" "<theme>"
+    for s in $styles; do
+        style=$(jq -r ".alacritty_styles.$s" $ALACRITTY_STYLE_CONFIG)
+        printf " ${C_CYN}%08s      %18s${C_NC}        %02d      %.2f \n" $s \
+          $(echo "$style" | jq -r '.theme' -) \
+          $(echo "$style" | jq -r '.font_size' -) \
+          $(echo "$style" | jq -r '.opacity' -)
+    done
 }
 
 
