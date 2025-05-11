@@ -1,4 +1,4 @@
-Alacritty Functions v25.04.08
+Alacritty Functions v25.05.12
 =============================
 
 Provides an Ansible role and additional *Bash* functions for installing
@@ -26,7 +26,8 @@ pip install -r requirements.txt
   latest recommended and tested version is **v9.3.0**.
 - The Bash functions require Bash 4+, with Bash 5+ being fairly standard
   on modern linux distributions.
-
+- The install playbook replaces the Alacritty binary in /usr/local, thus
+  any open Alacritty sessions should be closed prior to running the playbook.
 
 ## Installation
 

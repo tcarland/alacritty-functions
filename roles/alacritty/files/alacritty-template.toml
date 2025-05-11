@@ -1,6 +1,5 @@
 # .alacritty-${ALACRITTY_PROFILE_NAME}.toml
 #
-
 [general]
 import = [ "~/.config/alacritty/themes/ubuntu.toml" ]
 working_directory = "${HOME}"
