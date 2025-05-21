@@ -3,7 +3,7 @@
 #
 #  Timothy C. Arland <tcarland@gmail.com>
 #
-export ALACRITTY_FUNCTIONS_VERSION="v25.05.12"
+export ALACRITTY_FUNCTIONS_VERSION="v25.05.21"
 export ALACRITTY_CONFIG_HOME="${HOME}/.config/alacritty"
 
 export ALACRITTY_CONFIG_TEMPLATE="${ALACRITTY_CONFIG_HOME}/alacritty-template.toml"
@@ -21,11 +21,33 @@ function critty_functions_list()
     declare -F | awk '{ print $NF }' | sort | egrep -v "^_" | grep "^critty" | sort
 }
 
+function critty_help()
+{
+    echo "   
+  critty|critty_new <name> : Activate or create a profile.
+  critty_font    [int]     : Set or return the current font size .
+  critty_win     [colxrow] : Set or return the current window dimensions.
+  critty_opac    [float]   : Set or return the current window opacity.
+  critty_theme   [name]    : Set or return the current window theme.
+  critty_themes            : The list of available themes.
+  critty_profiles          : The list of available profiles.
+  critty_style   <name>    : Switch to a preset style/theme.
+  critty_styles            : The list of available styles.
+  critty_set_style ...     : Create or configure a style setting.
+    <style_name> <theme_name> <font_size> <opacity>
+    "
+}
 
-function critty_new()
+
+function critty()
 {
     local name="${1:-default}"
-    local config="${ALACRITTY_CONFIG_HOME}/alacritty-${name}.toml"
+    local config="${ALACRITTY_CON"FIG_HOME}/alacritty-${name}.toml"
+    
+    if [[ "$name" =~ "-h" ]]; then
+        critty_help
+        return 0
+    fi
 
     config=$(ALACRITTY_PROFILE_NAME="$name" critty_config $config)
 

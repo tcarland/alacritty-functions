@@ -1,3 +1,6 @@
+# alacritty_styles.json
+# { "id": { "theme": string, "font_size": int, "opacity": double }
+#
 {
   "alacritty_styles": {
     "lite": {

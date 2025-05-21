@@ -148,7 +148,7 @@ are defined and saved in the profile specific configuration
 
 |  Function        |  Description                       |   Default Value    |
 |------------------|------------------------------------|--------------------|
-| critty_new       | Creates a new profile and window   |    'default'       |
+| critty           | Activate or create a profile       |    'default'       |
 | critty_font      | Sets the current profile font size |        9           |
 | critty_win       | Sets the window dimensions         | '75x32' (rowsXcol) |
 | critty_opac      | Sets the window opacity            |      .99           |

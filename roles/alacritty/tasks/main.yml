@@ -96,6 +96,8 @@
       alias alacritty_new=critty_new
       alias alacritty_profiles=critty_profiles
       alias alacritty_styles=critty_styles
+      alias critty_new=critty
       alias critty_opacity=critty_opac
       alias critty_profile=critty_profiles
+      alias critty_setStyle=critty_set_style
   when: alacritty_update_aliases
