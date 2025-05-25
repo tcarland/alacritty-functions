@@ -3,7 +3,7 @@
 #
 #  Timothy C. Arland <tcarland@gmail.com>
 #
-export ALACRITTY_FUNCTIONS_VERSION="v25.05.21"
+export ALACRITTY_FUNCTIONS_VERSION="v25.05.25"
 export ALACRITTY_CONFIG_HOME="${HOME}/.config/alacritty"
 
 export ALACRITTY_CONFIG_TEMPLATE="${ALACRITTY_CONFIG_HOME}/alacritty-template.toml"
@@ -21,11 +21,12 @@ function critty_functions_list()
     declare -F | awk '{ print $NF }' | sort | egrep -v "^_" | grep "^critty" | sort
 }
 
+
 function critty_help()
 {
     echo "   
-  critty|critty_new <name> : Activate or create a profile.
-  critty_font    [int]     : Set or return the current font size .
+  critty         <name>    : Activate or create a profile as a new window.
+  critty_font    [int]     : Set or return the current font size.
   critty_win     [colxrow] : Set or return the current window dimensions.
   critty_opac    [float]   : Set or return the current window opacity.
   critty_theme   [name]    : Set or return the current window theme.
@@ -33,8 +34,8 @@ function critty_help()
   critty_profiles          : The list of available profiles.
   critty_style   <name>    : Switch to a preset style/theme.
   critty_styles            : The list of available styles.
-  critty_set_style ...     : Create or configure a style setting.
-    <style_name> <theme_name> <font_size> <opacity>
+  critty_set_style <...>   : Create or configure a style.
+       <style_name>  <theme_name>  <font_size>  <opacity>
     "
 }
 
@@ -42,7 +43,7 @@ function critty_help()
 function critty()
 {
     local name="${1:-default}"
-    local config="${ALACRITTY_CON"FIG_HOME}/alacritty-${name}.toml"
+    local config="${ALACRITTY_CONFIG_HOME}/alacritty-${name}.toml"
     
     if [[ "$name" =~ "-h" ]]; then
         critty_help
@@ -204,7 +205,7 @@ function critty_win()
     local config=$(critty_config)
 
     if [[ $col -gt 0 && $row -gt 0 ]]; then
-        echo "Setting Alacritty window dimensions to $col x $row"
+        echo " -> Alacritty window dimensions set to $col x $row"
         sed -i.bak "s/dimensions = \(.*\)$/dimensions = { columns=${col}, lines=${row} }/" $config
     else
         col=$(cat $config | grep 'dimensions =' | sed -n 's/.*columns=\([0-9]*\).*/\1/p')
