@@ -3,7 +3,7 @@
 #
 #  Timothy C. Arland <tcarland@gmail.com>
 #
-export ALACRITTY_FUNCTIONS_VERSION="v25.05.25"
+export ALACRITTY_FUNCTIONS_VERSION="v25.10.15"
 export ALACRITTY_CONFIG_HOME="${HOME}/.config/alacritty"
 
 export ALACRITTY_CONFIG_TEMPLATE="${ALACRITTY_CONFIG_HOME}/alacritty-template.toml"
@@ -24,7 +24,7 @@ function critty_functions_list()
 
 function critty_help()
 {
-    echo "   
+    echo "
   critty         <name>    : Activate or create a profile as a new window.
   critty_font    [int]     : Set or return the current font size.
   critty_win     [colxrow] : Set or return the current window dimensions.
@@ -44,7 +44,7 @@ function critty()
 {
     local name="${1:-default}"
     local config="${ALACRITTY_CONFIG_HOME}/alacritty-${name}.toml"
-    
+
     if [[ "$name" =~ "-h" ]]; then
         critty_help
         return 0

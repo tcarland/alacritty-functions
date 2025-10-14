@@ -1,4 +1,4 @@
-Alacritty Functions v25.05.25
+Alacritty Functions v25.10.15
 =============================
 
 Provides an Ansible role and additional *Bash* functions for installing
@@ -39,6 +39,7 @@ hosts list and not an inventory file.
 ```sh
 ansible-playbook -i "hostA," -e "alacritty_update_bashrc=true" alacritty-install.yml
 ```
+
 
 Since *Alacritty* has its own *Terminfo*, a playbook is provided to install
 just the *terminfo* into remote hosts to avoid unknown TERM issues.
@@ -173,4 +174,10 @@ function *crittypro* is the same as running `critty_style pro`. New styles
 can be created or existing styles updated via *critty_set_style*.
 ```sh
 critty_set_style pro catppuccin_mocha 9 0.98
+```
+
+The styles are store in a json file `$XDG_HOME/.config/alacritty/alacritty_styles.json`.
+The json is of the following schema:
+```json
+{ "id": { "theme": string, "font_size": int, "opacity": double }
 ```
