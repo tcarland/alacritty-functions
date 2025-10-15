@@ -17,6 +17,17 @@
         version: '{{ alacritty_version }}'
     - name: Build Alacritty
       ansible.builtin.shell: 'cd {{ alacritty_install_dir }} && cargo build --release'
+    - name: Current binary exists
+      ansible.builtin.stat:
+        path: "{{ ansibile_install_dir }}/alacritty"
+      register: binexists
+    - name: Move Aside current binary
+      ansible.builtin.copy: 
+        src: '{{ alacritty_install_dir }}/alacritty'
+        dest: '{{ alacritty_install_dir }}/alacritty-bin.{{ ansible_date_time.date }}'
+        remote_src: true
+        force: false
+      when: binexists.stat.exists
     - name: Install Alacritty
       ansible.builtin.shell: 'cp {{ alacritty_install_dir }}/target/release/alacritty /usr/local/bin'
     - name: Install logo
