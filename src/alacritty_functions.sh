@@ -3,7 +3,7 @@
 #
 #  Timothy C. Arland <tcarland@gmail.com>
 #
-export ALACRITTY_FUNCTIONS_VERSION="v25.05.25"
+export ALACRITTY_FUNCTIONS_VERSION="v25.10.15"
 export ALACRITTY_CONFIG_HOME="${HOME}/.config/alacritty"
 
 export ALACRITTY_CONFIG_TEMPLATE="${ALACRITTY_CONFIG_HOME}/alacritty-template.toml"
@@ -13,6 +13,7 @@ export ALACRITTY_CONFIG="${ALACRITTY_CONFIG_HOME}/alacritty-${ALACRITTY_PROFILE_
 
 export C_NC='\e[0m'
 export C_GRN='\e[32m\e[1m'
+export C_LGR='\e[32m'
 export C_CYN='\e[96m'
 
 
@@ -24,17 +25,19 @@ function critty_functions_list()
 
 function critty_help()
 {
-    echo "   
-  critty         <name>    : Activate or create a profile as a new window.
-  critty_font    [int]     : Set or return the current font size.
-  critty_win     [colxrow] : Set or return the current window dimensions.
-  critty_opac    [float]   : Set or return the current window opacity.
-  critty_theme   [name]    : Set or return the current window theme.
-  critty_themes            : The list of available themes.
-  critty_profiles          : The list of available profiles.
-  critty_style   <name>    : Switch to a preset style/theme.
-  critty_styles            : The list of available styles.
-  critty_set_style <...>   : Create or configure a style.
+    echo "
+  critty         <name>     : Activate or create a profile as a new window.
+  critty_font    [int]      : Set or return the current font size.
+  critty_win     [colxrow]  : Set or return the current window dimensions.
+  critty_opac    [float]    : Set or return the current window opacity.
+  critty_theme   [name]     : Set or return the current window theme.
+  critty_themes             : The list of available themes.
+  critty_profiles           : The list of available profiles.
+  critty_style   <name>     : Switch to a preset style/theme.
+  critty_styles             : The list of available styles for current profile.
+  critty_all_styles         : Show styles for all profiles.
+  critty_copy_style <s> <d> : Copy styles from one profile to another.
+  critty_set_style <...>    : Create or configure a style for current profile.
        <style_name>  <theme_name>  <font_size>  <opacity>
     "
 }
@@ -44,7 +47,7 @@ function critty()
 {
     local name="${1:-default}"
     local config="${ALACRITTY_CONFIG_HOME}/alacritty-${name}.toml"
-    
+
     if [[ "$name" =~ "-h" ]]; then
         critty_help
         return 0
@@ -223,24 +226,30 @@ function critty_set_style()
     local theme="$2"
     local size=$3
     local opac=$4
+    local profile="${ALACRITTY_PROFILE_NAME:-default}"
 
     if [[ -z "$name" || -z "$theme" ]]; then
         echo "critty_set_style <name> <theme> <font_size> <opacity>"
         echo "  where name is one of 'pro', 'dark', or 'lite'"
         echo "  eg. critty_set_style pro oxocarbon 10 0.9"
+        echo "  (applies to current profile: $profile)"
         return 1
     fi
 
-    json=$(jq ".alacritty_styles.${name}.theme = \"$theme\"" $ALACRITTY_STYLE_CONFIG)
+    # Ensure the profile exists in the styles config
+    json=$(jq ".alacritty_styles.${profile} //= {}" $ALACRITTY_STYLE_CONFIG)
+    echo "$json" > $ALACRITTY_STYLE_CONFIG
+
+    json=$(jq ".alacritty_styles.${profile}.${name}.theme = \"$theme\"" $ALACRITTY_STYLE_CONFIG)
     echo "$json" > $ALACRITTY_STYLE_CONFIG
 
     if [ -n "$size" ]; then
-        json=$(jq ".alacritty_styles.$name.font_size = $size" $ALACRITTY_STYLE_CONFIG)
+        json=$(jq ".alacritty_styles.${profile}.${name}.font_size = $size" $ALACRITTY_STYLE_CONFIG)
         echo "$json" > $ALACRITTY_STYLE_CONFIG
     fi
 
     if [ -n "$opac" ]; then
-        json=$(jq ".alacritty_styles.${name}.opacity = $opac" $ALACRITTY_STYLE_CONFIG)
+        json=$(jq ".alacritty_styles.${profile}.${name}.opacity = $opac" $ALACRITTY_STYLE_CONFIG)
         echo "$json" > $ALACRITTY_STYLE_CONFIG
     fi
 
@@ -248,24 +257,11 @@ function critty_set_style()
 }
 
 
-function critty_styles()
-{
-    echo "Alacritty Styles:"
-    styles=$(jq -r '.alacritty_styles | keys[]' $ALACRITTY_STYLE_CONFIG)
-    printf "  ${C_GRN}%08s     %18s${C_NC}     [fontsz]  [opacity] \n" "<style>" "<theme>"
-    for s in $styles; do
-        style=$(jq -r ".alacritty_styles.$s" $ALACRITTY_STYLE_CONFIG)
-        printf " ${C_CYN}%08s      %18s${C_NC}        %02d      %.2f \n" $s \
-          $(echo "$style" | jq -r '.theme' -) \
-          $(echo "$style" | jq -r '.font_size' -) \
-          $(echo "$style" | jq -r '.opacity' -)
-    done
-}
-
 
 function critty_style()
 {
     local name="$1"
+    local profile="${ALACRITTY_PROFILE_NAME:-default}"
 
     if [ -z "$name" ]; then
         echo "Usage: critty_style() <name>"
@@ -273,10 +269,10 @@ function critty_style()
         return 0
     fi
 
-    style=$(jq -r ".alacritty_styles.$name" $ALACRITTY_STYLE_CONFIG)
+    style=$(jq -r ".alacritty_styles.${profile}.${name}" $ALACRITTY_STYLE_CONFIG)
 
     if [[ "$style" == "null" ]]; then
-        echo "critty_style '$style' not found"
+        echo "critty_style '$name' not found for profile '$profile'"
         return 1
     fi
 
@@ -285,9 +281,86 @@ function critty_style()
     opac=$(echo "$style" | jq -r '.opacity' -)
 
     critty_theme "$theme"
-    critty_font $font_sz
+    critty_font $fontsz
     critty_opac $opac
 
+    return 0
+}
+
+
+function critty_styles()
+{
+    local profile="${ALACRITTY_PROFILE_NAME:-default}"
+    echo "Alacritty Styles for profile '$profile':"
+
+    # Check if the profile exists in the styles config
+    profile_exists=$(jq -r ".alacritty_styles.${profile} // empty" $ALACRITTY_STYLE_CONFIG)
+    if [ -z "$profile_exists" ]; then
+        echo "  No styles configured for profile '$profile'"
+        return 0
+    fi
+
+    styles=$(jq -r ".alacritty_styles.${profile} | keys[]" $ALACRITTY_STYLE_CONFIG)
+    printf "  ${C_GRN}%08s     %18s${C_NC}     [fontsz]  [opacity] \n" "<style>" "<theme>"
+    for s in $styles; do
+        style=$(jq -r ".alacritty_styles.${profile}.$s" $ALACRITTY_STYLE_CONFIG)
+        printf " ${C_CYN}%08s      %18s${C_NC}        %02d      %.2f \n" $s \
+          $(echo "$style" | jq -r '.theme' -) \
+          $(echo "$style" | jq -r '.font_size' -) \
+          $(echo "$style" | jq -r '.opacity' -)
+    done
+}
+
+
+function critty_all_styles()
+{
+    echo "Alacritty Styles by Profile:"
+    profiles=$(jq -r '.alacritty_styles | keys[]' $ALACRITTY_STYLE_CONFIG)
+
+    for profile in $profiles; do
+        printf "\nProfile: ${C_GRN}${profile}${C_NC} \n"
+        styles=$(jq -r ".alacritty_styles.${profile} | keys[]" $ALACRITTY_STYLE_CONFIG)
+        if [ -z "$styles" ]; then
+            echo "  No styles configured"
+            continue
+        fi
+        printf "  ${C_LGR}%08s     %18s     [fontsz]  [opacity]${C_NC} \n" "<style>" "<theme>"
+        for s in $styles; do
+            style=$(jq -r ".alacritty_styles.${profile}.$s" $ALACRITTY_STYLE_CONFIG)
+            printf "  ${C_CYN}%08s      %18s${C_NC}        %02d      %.2f \n" $s \
+              $(echo "$style" | jq -r '.theme' -) \
+              $(echo "$style" | jq -r '.font_size' -) \
+              $(echo "$style" | jq -r '.opacity' -)
+        done
+    done
+    echo ""
+}
+
+
+function critty_copy_style()
+{
+    local src_profile="$1"
+    local dest_profile="$2"
+
+    if [[ -z "$src_profile" || -z "$dest_profile" ]]; then
+        echo "Usage: critty_copy_style <source_profile> <destination_profile>"
+        echo "Available profiles:"
+        jq -r '.alacritty_styles | keys[]' $ALACRITTY_STYLE_CONFIG | sed 's/^/  /'
+        return 1
+    fi
+
+    # Check if source profile exists
+    src_exists=$(jq -r ".alacritty_styles.${src_profile} // empty" $ALACRITTY_STYLE_CONFIG)
+    if [ -z "$src_exists" ]; then
+        echo "Source profile '$src_profile' not found in styles config"
+        return 1
+    fi
+
+    # Copy styles from source to dest
+    json=$(jq ".alacritty_styles.${dest_profile} = .alacritty_styles.${src_profile}" $ALACRITTY_STYLE_CONFIG)
+    echo "$json" > $ALACRITTY_STYLE_CONFIG
+
+    echo "Copied style from profile '$src_profile' to '$dest_profile'"
     return 0
 }
 

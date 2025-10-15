@@ -26,12 +26,12 @@
         mode: '0644'
     - name: Copy alacritty_functions
       ansible.builtin.copy:
-        src: 'alacritty_functions.sh'
+        src: '{{ playbook_dir }}/src/alacritty_functions.sh'
         dest: '~/.config/alacritty/alacritty_functions.sh'
         mode: '0644'
     - name: Copy alacritty_styles config
       ansible.builtin.copy:
-        src: 'alacritty_styles.json'
+        src: '{{ playbook_dir }}/src/alacritty_styles.json'
         dest: '~/.config/alacritty/alacritty_styles.json'
         mode: '0644'
     - name: Install shell completion

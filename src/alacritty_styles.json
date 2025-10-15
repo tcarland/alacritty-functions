@@ -1,0 +1,62 @@
+{
+  "alacritty_styles": {
+    "default": {
+      "lite": {
+        "theme": "solarized_light",
+        "font_size": "10",
+        "opacity": 0.99
+      },
+      "dark": {
+        "theme": "ubuntu",
+        "font_size": "9",
+        "opacity": 0.8
+      },
+      "pro": {
+        "theme": "oxocarbon",
+        "font_size": "9",
+        "opacity": 0.90
+      }
+    },
+    "work": {
+      "lite": {
+        "theme": "selenized_light",
+        "font_size": "10",
+        "opacity": 0.95
+      },
+      "dark": {
+        "theme": "catppuccin_mocha",
+        "font_size": "10",
+        "opacity": 0.80
+      },
+      "sharing": {
+        "theme": "tomorrow_night",
+        "font_size": "12",
+        "opacity": 0.92
+      }
+    },
+    "gaming": {
+      "dark": {
+        "theme": "material_theme",
+        "font_size": "8",
+        "opacity": 0.75
+      },
+      "neon": {
+        "theme": "cyberpunk",
+        "font_size": "8",
+        "opacity": 0.80
+      }
+    },
+    "presentation": {
+      "large": {
+        "theme": "solarized_light",
+        "font_size": "11",
+        "opacity": 1.0
+      },
+      "contrast": {
+        "theme": "high_contrast",
+        "font_size": "11",
+        "opacity": 1.0
+      }
+    }
+  }
+}
