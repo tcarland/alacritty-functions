@@ -1,4 +1,4 @@
-Alacritty Functions v25.10.15
+Alacritty Functions v25.10.16
 =============================
 
 Provides an Ansible role and additional *Bash* functions for installing
@@ -22,12 +22,17 @@ source ./pyenv/bin/activate
 pip install -r requirements.txt
 ```
 
-- Ansible 8.5.0+ is the required minimum to install the Alacritty playbook,
-  latest recommended and tested version is **v9.3.0**.
+- Ansible *8.5.x* is the required minimum to install the Alacritty playbook.
+  The latest tested versions for these playbooks are:
+  - **v9.3.0**
+  - **v9.5.0**
+
 - The Bash functions require Bash 4+, with Bash 5+ being fairly standard
   on modern linux distributions.
-- The install playbook replaces the Alacritty binary in /usr/local, thus
-  any open Alacritty sessions should be closed prior to running the playbook.
+
+- The *alacritty-install* playbook replaces the *Alacritty* binary,
+  (typically */usr/local/bin*) thus any open Alacritty sessions 
+  should be closed prior to running the playbook.
 
 ## Installation
 
@@ -44,7 +49,7 @@ ansible-playbook -i "hostA," -e "alacritty_update_bashrc=true" alacritty-install
 Since *Alacritty* has its own *Terminfo*, a playbook is provided to install
 just the *terminfo* into remote hosts to avoid unknown TERM issues.
 Alternatively, the *xterm* or *xterm-256color* terminfo's have proven
-reasonably compatible.
+to be compatible.
 ```sh
 ansible-playbook -i "remotehost1,remotehost2" alacritty-terminfo.yml"
 ```
@@ -118,24 +123,28 @@ esac
 ### New and Existing Profiles
 
 The function *critty_functions_list* provides a list of available functions
-for managing terminal profiles. To create a new profile use the *critty_new*
+for managing terminal profiles. To create a new profile use the *critty* new
 function. This will create a new terminal window with a profile specific
 configuration. This is the primary function for opening existing profiles or
 creating a new profile.
 ```bash
-critty_new profile2
-critty_profiles
+critty_new profile1
+# or just critty
+critty profile2
 
+critty_profiles
+```
+```yml
 Alacritty_Profiles:
  - default
  - profile2
 Current Profile:
  - default
- ```
+```
 
 Note the current profile above is still listed as *default* as the
 *critty_profiles* function was executed in the original shell window
-while *critty_new* creates a *new* terminal instance under the new profile.
+while *critty()* creates a *new* terminal window under the new profile.
 
 
 ### Alacritty Functions
@@ -147,37 +156,95 @@ are defined and saved in the profile specific configuration
 *.config/alacrity/alacritty-${ALACRITTY_PROFILE_NAME}.toml*.
 
 
-|  Function        |  Description                       |   Default Value    |
-|------------------|------------------------------------|--------------------|
-| critty           | Activate or create a profile       |    'default'       |
-| critty_font      | Sets the current profile font size |        9           |
-| critty_win       | Sets the window dimensions         | '75x32' (rowsXcol) |
-| critty_opac      | Sets the window opacity            |      .99           |
-| critty_theme     | Sets the current window theme      |     Ubuntu         |
-| critty_themes    | The list of available themes       |       n/a          |
-| critty_style     | Switch to a preset style/theme     |     'dark'         |
-| critty_set_style | Set or create a style setting      |       n/a          |
-| critty_styles    | List of available styles           |       n/a          |
+|  Function          |  Description                       |   Default Value    |
+|--------------------|------------------------------------|--------------------|
+| critty             | Activate or create a profile       |    'default'       |
+| critty_font        | Sets the current profile font size |        9           |
+| critty_win         | Sets the window dimensions         | '75x32' (rowsXcol) |
+| critty_opac        | Sets the window opacity            |      .99           |
+| critty_theme       | Sets the current window theme      |     Ubuntu         |
+| critty_themes      | The list of available themes       |       n/a          |
+| critty_style       | Switch to a preset style/theme     |     'dark'         |
+| critty_set_style   | Set or create a style setting      |       n/a          |
+| critty_styles      | List of available styles           |       n/a          |
+| critty_all_styles  | List all styles of all profiles    |       n/a          |
+| critty_copy_styles | Copy a styles between profiles     |       n/a          |
 
 Most` functions will show the current value when no parameters are provided.
-A few pre-configured set of theme *styles* are provided via additional
-functions.
+A few pre-configured set of theme *styles* are provided as the default 
+styles. The styles can be adjusted via additional functions.
 
-- *crittypro*  - Sets the *monokai_pro* theme with less transparency.
-- *crittylite* - Sets the theme as *solarized_light* with no transparency.
-- *crittydark* - Sets the default theme of *Ubuntu* with some transparency.
 
-### Alacritty Styles
 
-These are simply wrappers to the *critty_style()* function, thus the
-function *crittypro* is the same as running `critty_style pro`. New styles
-can be created or existing styles updated via *critty_set_style*.
+### Alacritty Profile Styles
+
+Each profile has its own set of styles, allowing for more granular 
+customization based on use case. There are some *default* profile styles
+created initially for `dark`, `light`, and `pro`. These tree shortcut 
+functions will switch a given profiles style quickly for those names.
+
+- *crittypro()*  - Sets the *monokai_pro* theme with less transparency.
+- *crittylite()* - Sets the theme as *solarized_light* with no transparency.
+- *crittydark()* - Sets the default theme of *ubuntu* with some transparency.
+
+This is technically the same as running the normal *set* function using 
+any style name.
 ```sh
-critty_set_style pro catppuccin_mocha 9 0.98
+# sets the current style to dark
+critty_style dark
+# create new style (or update an existing)
+critty_set_style evening dracula 10 0.85
+# switch to new (or existing) style
+critty_style evening
+# update the 'pro' style
+critty_set_style pro catppuccin_mocha 10 0.9
+# switch to pro
+crittypro
 ```
 
-The styles are store in a json file `$XDG_HOME/.config/alacritty/alacritty_styles.json`.
-The json is of the following schema:
+The styles are stored in a json file `$XDG_HOME/.config/alacritty/alacritty_styles.json`.
+
+The following json demonstrates the required schema.
 ```json
-{ "id": { "theme": string, "font_size": int, "opacity": double }
+{
+  "alacritty_styles": {
+    "default": {
+      "lite": {
+        "theme": "solarized_light",
+        "font_size": "10",
+        "opacity": 0.99
+      },
+      "dark": {
+        "theme": "ubuntu",
+        "font_size": "9",
+        "opacity": 0.8
+      }
+    },
+    "work": {
+      "lite": {
+        "theme": "github_light",
+        "font_size": "11",
+        "opacity": 0.95
+      },
+      "focus": {
+        "theme": "tomorrow_night",
+        "font_size": "12",
+        "opacity": 0.92
+      }
+    }
+  }
+}
+```
+
+### Copying Styles
+
+```bash
+# View all styles across all profiles
+critty_all_styles
+
+# Copy styles from 'default' profile to 'presentation' profile
+critty_copy_styles default presentation
+
+# Create a new style for a specific profile
+ALACRITTY_PROFILE_NAME=gaming critty_set_style stealth material_dark 8 0.7
 ```

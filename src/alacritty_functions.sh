@@ -3,7 +3,7 @@
 #
 #  Timothy C. Arland <tcarland@gmail.com>
 #
-export ALACRITTY_FUNCTIONS_VERSION="v25.10.15"
+export ALACRITTY_FUNCTIONS_VERSION="v25.10.16"
 export ALACRITTY_CONFIG_HOME="${HOME}/.config/alacritty"
 
 export ALACRITTY_CONFIG_TEMPLATE="${ALACRITTY_CONFIG_HOME}/alacritty-template.toml"
@@ -26,19 +26,19 @@ function critty_functions_list()
 function critty_help()
 {
     echo "
-  critty         <name>     : Activate or create a profile as a new window.
-  critty_font    [int]      : Set or return the current font size.
-  critty_win     [colxrow]  : Set or return the current window dimensions.
-  critty_opac    [float]    : Set or return the current window opacity.
-  critty_theme   [name]     : Set or return the current window theme.
-  critty_themes             : The list of available themes.
-  critty_profiles           : The list of available profiles.
-  critty_style   <name>     : Switch to a preset style/theme.
-  critty_styles             : The list of available styles for current profile.
-  critty_all_styles         : Show styles for all profiles.
-  critty_copy_style <s> <d> : Copy styles from one profile to another.
-  critty_set_style <...>    : Create or configure a style for current profile.
-       <style_name>  <theme_name>  <font_size>  <opacity>
+  critty         <name>      : Activate or create a profile as a new window.
+  critty_font    [int]       : Set or get the current font size.
+  critty_win     [colxrow]   : Set or get the current window dimensions.
+  critty_opac    [float]     : Set or get the current window opacity.
+  critty_theme   [name]      : Set or get the current window theme.
+  critty_themes              : The list of available themes.
+  critty_profiles            : The list of available profiles.
+  critty_style   <name>      : Switch to a preset style.
+  critty_styles              : List of available styles for the current profile.
+  critty_all_styles          : Show all styles for all profiles.
+  critty_copy_styles <s> <d> : Copy styles from one profile to another.
+  critty_set_style <...>     : Create/Configure a style for the current profile.
+                <style_name>  <theme_name>  <font_size>  <opacity>
     "
 }
 
@@ -337,7 +337,7 @@ function critty_all_styles()
 }
 
 
-function critty_copy_style()
+function critty_copy_styles()
 {
     local src_profile="$1"
     local dest_profile="$2"
