@@ -20,10 +20,10 @@
     - name: Current binary exists
       ansible.builtin.stat:
         path: '{{ alacritty_bin_path }}/alacritty'
-      register: binexists
+      register: alacritty_bin_exists
     - name: Move Aside current binary
       ansible.builtin.shell: 'mv {{ alacritty_bin_path }}/alacritty {{ alacritty_bin_path }}/alacritty-bin.{{ ansible_date_time.date }}'
-      when: binexists.stat.exists
+      when: alacritty_bin_exists.stat.exists
     - name: Install Alacritty
       ansible.builtin.shell: 'cp {{ alacritty_install_dir }}/target/release/alacritty {{ alacritty_bin_path }}/'
     - name: Install logo
