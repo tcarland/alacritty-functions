@@ -21,7 +21,7 @@
       ansible.builtin.stat:
         path: '{{ alacritty_bin_path }}/alacritty'
       register: alacritty_bin_exists
-    - name: Move Aside current binary
+    - name: Move aside current binary
       ansible.builtin.shell: 'mv {{ alacritty_bin_path }}/alacritty {{ alacritty_bin_path }}/alacritty-bin.{{ ansible_date_time.date }}'
       when: alacritty_bin_exists.stat.exists
     - name: Install Alacritty

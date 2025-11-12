@@ -1,4 +1,4 @@
-Alacritty Functions v25.10.16
+Alacritty Functions v25.11.12
 =============================
 
 Provides an Ansible role and additional *Bash* functions for installing
@@ -25,7 +25,6 @@ pip install -r requirements.txt
 - Ansible *8.5.x* is the required minimum to install the Alacritty playbook.
   The latest tested versions for these playbooks are:
   - **v9.3.0**
-  - **v9.5.0**
 
 - The Bash functions require Bash 4+, with Bash 5+ being fairly standard
   on modern linux distributions.
