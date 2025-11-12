@@ -276,7 +276,7 @@ function critty_del_style()
         return 1
     fi
     
-    jq "del(.alacritty_styles.${profile}.${name})" $ALACRITTY_STYLE_CONFIG)
+    jq "del(.alacritty_styles.${profile}.${name})" $ALACRITTY_STYLE_CONFIG
     
     return $?
 }
