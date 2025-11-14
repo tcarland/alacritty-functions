@@ -1,4 +1,4 @@
-Alacritty Functions v25.10.16
+Alacritty Functions v25.11.12
 =============================
 
 Provides an Ansible role and additional *Bash* functions for installing
@@ -9,6 +9,14 @@ The *Bash* functions included offers additional functionality for creating
 and managing profiles by defining multiple Alacritty configurations. This
 allows for the real-time adjustment of various Alacritty features such as
 themes, window opacity, and font sizes for an individual *profile*.
+
+The current supported version of Alacritty is `v0.15.1`. 
+The latest version (v0.16.1) requires Cargo 1.85.0 which is not yet 
+in Ubuntu system repositories.
+
+<br>
+    
+---
 
 
 ## Requirements
@@ -25,7 +33,6 @@ pip install -r requirements.txt
 - Ansible *8.5.x* is the required minimum to install the Alacritty playbook.
   The latest tested versions for these playbooks are:
   - **v9.3.0**
-  - **v9.5.0**
 
 - The Bash functions require Bash 4+, with Bash 5+ being fairly standard
   on modern linux distributions.
@@ -33,6 +40,8 @@ pip install -r requirements.txt
 - The *alacritty-install* playbook replaces the *Alacritty* binary,
   (typically */usr/local/bin*) thus any open Alacritty sessions 
   should be closed prior to running the playbook.
+
+<br>
 
 ## Installation
 
@@ -69,6 +78,8 @@ all:
     alacritty_update_aliases: false
 ```
 
+<br>
+    
 ### Ansible Tags
 
 A typical installation uses all tags centered around *term*, which is the
@@ -90,7 +101,6 @@ standard locations. The provided Ansible and the Bash Functions will use the
 standard location of *${HOME}/.config/alacritty/alacritty.toml* for the default
 configuration. This configuration is used as the predefined *default* profile
 which is considered special by the profile handling.
-
 
 ### Enabling Alacritty Profiles
 
@@ -146,8 +156,9 @@ Note the current profile above is still listed as *default* as the
 *critty_profiles* function was executed in the original shell window
 while *critty()* creates a *new* terminal window under the new profile.
 
+<br>
 
-### Alacritty Functions
+## Alacritty Functions
 
 The profile functions support adjusting the default window size (when
 creating a new window), the window opacity, the font size, and the window
@@ -166,17 +177,18 @@ are defined and saved in the profile specific configuration
 | critty_themes      | The list of available themes       |       n/a          |
 | critty_style       | Switch to a preset style/theme     |     'dark'         |
 | critty_set_style   | Set or create a style setting      |       n/a          |
+| critty_del_style   | Delete style from current profile  |       n/a          |
 | critty_styles      | List of available styles           |       n/a          |
 | critty_all_styles  | List all styles of all profiles    |       n/a          |
 | critty_copy_styles | Copy a styles between profiles     |       n/a          |
 
-Most` functions will show the current value when no parameters are provided.
+Most functions will show the current value when no parameters are provided.
 A few pre-configured set of theme *styles* are provided as the default 
 styles. The styles can be adjusted via additional functions.
 
+<br>
 
-
-### Alacritty Profile Styles
+## Alacritty Profile Styles
 
 Each profile has its own set of styles, allowing for more granular 
 customization based on use case. There are some *default* profile styles
@@ -194,7 +206,7 @@ any style name.
 critty_style dark
 # create new style (or update an existing)
 critty_set_style evening dracula 10 0.85
-# switch to new (or existing) style
+# switch to style
 critty_style evening
 # update the 'pro' style
 critty_set_style pro catppuccin_mocha 10 0.9
@@ -236,7 +248,9 @@ The following json demonstrates the required schema.
 }
 ```
 
-### Copying Styles
+<br>
+    
+## Copying Styles
 
 ```bash
 # View all styles across all profiles

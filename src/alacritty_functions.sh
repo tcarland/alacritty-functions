@@ -3,7 +3,7 @@
 #
 #  Timothy C. Arland <tcarland@gmail.com>
 #
-export ALACRITTY_FUNCTIONS_VERSION="v25.10.16"
+export ALACRITTY_FUNCTIONS_VERSION="v25.11.12"
 export ALACRITTY_CONFIG_HOME="${HOME}/.config/alacritty"
 
 export ALACRITTY_CONFIG_TEMPLATE="${ALACRITTY_CONFIG_HOME}/alacritty-template.toml"
@@ -16,6 +16,14 @@ export C_GRN='\e[32m\e[1m'
 export C_LGR='\e[32m'
 export C_CYN='\e[96m'
 
+# ------------------------
+
+if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
+    echo "$0 is being executed directly and should only be sourced from the shell"
+    exit 1
+fi
+
+# ------------------------
 
 function critty_functions_list()
 {
@@ -230,8 +238,8 @@ function critty_set_style()
 
     if [[ -z "$name" || -z "$theme" ]]; then
         echo "critty_set_style <name> <theme> <font_size> <opacity>"
-        echo "  where name is one of 'pro', 'dark', or 'lite'"
-        echo "  eg. critty_set_style pro oxocarbon 10 0.9"
+        echo "  <name> = style name such as 'pro', 'dark', 'lite')"
+        echo "           eg. critty_set_style pro oxocarbon 10 0.9"
         echo "  (applies to current profile: $profile)"
         return 1
     fi
@@ -257,6 +265,22 @@ function critty_set_style()
 }
 
 
+function critty_del_style()
+{
+    local name="$1"
+    local profile="${ALACRITTY_PROFILE_NAME}:-default}"
+    
+    if [ -z "$name" ]; then
+        echo "Usage: critty_del_style() <name>"
+        echo " Will delete the named style from the current profile"
+        return 1
+    fi
+    
+    jq "del(.alacritty_styles.${profile}.${name})" $ALACRITTY_STYLE_CONFIG
+    
+    return $?
+}
+    
 
 function critty_style()
 {
@@ -301,7 +325,7 @@ function critty_styles()
     fi
 
     styles=$(jq -r ".alacritty_styles.${profile} | keys[]" $ALACRITTY_STYLE_CONFIG)
-    printf "  ${C_GRN}%08s     %18s${C_NC}     [fontsz]  [opacity] \n" "<style>" "<theme>"
+    printf "  ${C_GRN}%08s     %18s     [fontsz]  [opacity]${C_NC} \n" "<style>" "<theme>"
     for s in $styles; do
         style=$(jq -r ".alacritty_styles.${profile}.$s" $ALACRITTY_STYLE_CONFIG)
         printf " ${C_CYN}%08s      %18s${C_NC}        %02d      %.2f \n" $s \
