@@ -44,6 +44,11 @@
         "theme": "cyberpunk",
         "font_size": "8",
         "opacity": 0.80
+      },
+      "pro": {
+        "theme": "kimbie_dark",
+        "font_size": "0",
+        "opacity": 0.95
       }
     },
     "presentation": {
