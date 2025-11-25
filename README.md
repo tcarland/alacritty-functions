@@ -1,4 +1,4 @@
-Alacritty Functions v25.11.12
+Alacritty Functions v25.11.25
 =============================
 
 Provides an Ansible role and additional *Bash* functions for installing
@@ -10,12 +10,12 @@ and managing profiles by defining multiple Alacritty configurations. This
 allows for the real-time adjustment of various Alacritty features such as
 themes, window opacity, and font sizes for an individual *profile*.
 
-The current supported version of Alacritty is `v0.15.1`. 
-The latest version (v0.16.1) requires Cargo 1.85.0 which is not yet 
+The current supported version of Alacritty is `v0.15.1`.
+The latest version (v0.16.1) requires Cargo 1.85.0 which is not yet
 in Ubuntu system repositories.
 
 <br>
-    
+
 ---
 
 
@@ -38,7 +38,7 @@ pip install -r requirements.txt
   on modern linux distributions.
 
 - The *alacritty-install* playbook replaces the *Alacritty* binary,
-  (typically */usr/local/bin*) thus any open Alacritty sessions 
+  (typically */usr/local/bin*) thus any open Alacritty sessions
   should be closed prior to running the playbook.
 
 <br>
@@ -79,7 +79,7 @@ all:
 ```
 
 <br>
-    
+
 ### Ansible Tags
 
 A typical installation uses all tags centered around *term*, which is the
@@ -183,23 +183,23 @@ are defined and saved in the profile specific configuration
 | critty_copy_styles | Copy a styles between profiles     |       n/a          |
 
 Most functions will show the current value when no parameters are provided.
-A few pre-configured set of theme *styles* are provided as the default 
+A few pre-configured set of theme *styles* are provided as the default
 styles. The styles can be adjusted via additional functions.
 
 <br>
 
 ## Alacritty Profile Styles
 
-Each profile has its own set of styles, allowing for more granular 
+Each profile has its own set of styles, allowing for more granular
 customization based on use case. There are some *default* profile styles
-created initially for `dark`, `light`, and `pro`. These tree shortcut 
+created initially for `dark`, `light`, and `pro`. These tree shortcut
 functions will switch a given profiles style quickly for those names.
 
 - *crittypro()*  - Sets the *monokai_pro* theme with less transparency.
 - *crittylite()* - Sets the theme as *solarized_light* with no transparency.
 - *crittydark()* - Sets the default theme of *ubuntu* with some transparency.
 
-This is technically the same as running the normal *set* function using 
+This is technically the same as running the normal *set* function using
 any style name.
 ```sh
 # sets the current style to dark
@@ -249,7 +249,7 @@ The following json demonstrates the required schema.
 ```
 
 <br>
-    
+
 ## Copying Styles
 
 ```bash
