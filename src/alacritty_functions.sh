@@ -3,7 +3,7 @@
 #
 #  Timothy C. Arland <tcarland@gmail.com>
 #
-export ALACRITTY_FUNCTIONS_VERSION="v25.11.12"
+export ALACRITTY_FUNCTIONS_VERSION="v25.11.25"
 export ALACRITTY_CONFIG_HOME="${HOME}/.config/alacritty"
 
 export ALACRITTY_CONFIG_TEMPLATE="${ALACRITTY_CONFIG_HOME}/alacritty-template.toml"
@@ -269,18 +269,18 @@ function critty_del_style()
 {
     local name="$1"
     local profile="${ALACRITTY_PROFILE_NAME}:-default}"
-    
+
     if [ -z "$name" ]; then
         echo "Usage: critty_del_style() <name>"
         echo " Will delete the named style from the current profile"
         return 1
     fi
-    
+
     jq "del(.alacritty_styles.${profile}.${name})" $ALACRITTY_STYLE_CONFIG
-    
+
     return $?
 }
-    
+
 
 function critty_style()
 {

@@ -49,7 +49,10 @@ bindings = [
 [keyboard]
 bindings = [
     #{ key = "T", mods = "Control|Shift", action = "CreateNewTab" }, # macos only
-    { key = "N", mods = "Control|Shift", action = "CreateNewWindow" }
+    { key = "N", mods = "Control|Shift", action = "CreateNewWindow" },
+    { key = "+", mods = "Control|Shift", action = "IncreaseFontSize" },
+    { key = "-", mods = "Control", action = "DecreaseFontSize" },
+    { key = "_", mods = "Control|Shift", action = "ResetFontSize" },
 ]
 
 [debug]
