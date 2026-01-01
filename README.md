@@ -1,4 +1,4 @@
-Alacritty Functions v25.11.25
+Alacritty Functions v26.01.02
 =============================
 
 Provides an Ansible role and additional *Bash* functions for installing
@@ -10,9 +10,8 @@ and managing profiles by defining multiple Alacritty configurations. This
 allows for the real-time adjustment of various Alacritty features such as
 themes, window opacity, and font sizes for an individual *profile*.
 
-The current supported version of Alacritty is `v0.15.1`.
-The latest version (v0.16.1) requires Cargo 1.85.0 which is not yet
-in Ubuntu system repositories.
+The current supported version of Alacritty is `v0.16.1` which requires 
+cargo 1.85.0 to build.
 
 <br>
 

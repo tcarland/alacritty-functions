@@ -3,6 +3,7 @@ alacritty_apt_packages:
   - bash
   - build-essential
   - cargo
+  - cargo-1.85
   - cmake
   - g++
   - git
