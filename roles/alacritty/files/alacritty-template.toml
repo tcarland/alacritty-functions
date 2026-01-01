@@ -53,6 +53,7 @@ bindings = [
     { key = "+", mods = "Control|Shift", action = "IncreaseFontSize" },
     { key = "-", mods = "Control", action = "DecreaseFontSize" },
     { key = "_", mods = "Control|Shift", action = "ResetFontSize" },
+    { key = "^", mods = "Control|Shift", action = "Minimize" },
 ]
 
 [debug]

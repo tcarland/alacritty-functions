@@ -17,7 +17,6 @@ cargo 1.85.0 to build.
 
 ---
 
-
 ## Requirements
 
 It is recommended, given the version nightmare that is Ansible, that a
@@ -251,7 +250,8 @@ The following json demonstrates the required schema.
 
 ## Copying Styles
 
-```bash
+Styles can be copied between profiles via the `critty_copy_styles()` function.
+```sh
 # View all styles across all profiles
 critty_all_styles
 
