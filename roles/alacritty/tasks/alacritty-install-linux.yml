@@ -16,7 +16,7 @@
         dest: '{{ alacritty_install_dir }}'
         version: '{{ alacritty_version }}'
     - name: Build Alacritty
-      ansible.builtin.shell: 'cd {{ alacritty_install_dir }} && cargo build --release'
+      ansible.builtin.shell: 'cd {{ alacritty_install_dir }} && cargo-1.85 build --release'
     - name: Current binary exists
       ansible.builtin.stat:
         path: '{{ alacritty_bin_path }}/alacritty'

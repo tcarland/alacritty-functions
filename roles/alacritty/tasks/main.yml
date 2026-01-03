@@ -6,6 +6,7 @@
     mode: '0755'
     state: directory
 
+
 - name: Install Alacritty (Linux)
   tags: ['term']
   ansible.builtin.include_tasks: alacritty-install-linux.yml
@@ -15,6 +16,7 @@
   tags: ['term']
   ansible.builtin.include_tasks: alacritty-install-macos.yml
   when: ansible_distribution == 'MacOSX'
+
 
 - name: Alacritty Configuration
   tags: ['term-config']
