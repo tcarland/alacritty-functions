@@ -1,5 +1,6 @@
 Alacritty Functions v26.01.02
 =============================
+Timothy C. Arland <tcarland at gmail dot com>
 
 Provides an Ansible role and additional *Bash* functions for installing
 and managing [Alacritty](https://github.com/alacritty/alacritty)
@@ -212,9 +213,10 @@ critty_set_style pro catppuccin_mocha 10 0.9
 crittypro
 ```
 
-The styles are stored in a json file `$XDG_HOME/.config/alacritty/alacritty_styles.json`.
+The styles are stored in a json file, by default
+`$XDG_HOME/.config/alacritty/alacritty_styles.json`.
 
-The following json demonstrates the required schema.
+The following json demonstrates the styles schema.
 ```json
 {
   "alacritty_styles": {
