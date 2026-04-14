@@ -3,7 +3,7 @@
 #
 #  Timothy C. Arland <tcarland@gmail.com>
 #
-export ALACRITTY_FUNCTIONS_VERSION="v26.01.02"
+export ALACRITTY_FUNCTIONS_VERSION="v26.04.14"
 export ALACRITTY_CONFIG_HOME="${HOME}/.config/alacritty"
 
 export ALACRITTY_CONFIG_TEMPLATE="${ALACRITTY_CONFIG_HOME}/alacritty-template.toml"

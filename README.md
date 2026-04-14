@@ -1,4 +1,4 @@
-Alacritty Functions v26.01.02
+Alacritty Functions v26.04.14
 =============================
 Timothy C. Arland <tcarland at gmail dot com>
 
@@ -11,7 +11,7 @@ and managing profiles by defining multiple Alacritty configurations. This
 allows for the real-time adjustment of various Alacritty features such as
 themes, window opacity, and font sizes for an individual *profile*.
 
-The current supported version of Alacritty is `v0.16.1` which requires 
+The current supported version of Alacritty is `v0.17.0` which requires 
 cargo 1.85.0 to build.
 
 <br>
