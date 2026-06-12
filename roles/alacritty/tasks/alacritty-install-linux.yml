@@ -13,17 +13,19 @@
     - name: Check for Rust
       ansible.builtin.shell:
         cmd: 'source ~/.cargo/env && rustc --version'
-      register: rust_check
+      register: alacritty_rust_check
       ignore_errors: true
       args:
         executable: /bin/bash
     - name: Install Rust
-      ansible.builtin.shell: 'curl --proto "=https" --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y'
-      when: rust_check.rc != 0
+      ansible.builtin.shell: # noqa: command-instead-of-module
+        cmd: 'curl --proto "=https" --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y'
+      when: alacritty_rust_check.rc != 0
       args:
         executable: /bin/bash
     - name: Ensure Cargo is set to stable release
-      ansible.builtin.shell: 'source ~/.cargo/env && rustup override set stable && rustup update stable'
+      ansible.builtin.shell:
+        cmd: 'source ~/.cargo/env && rustup override set stable && rustup update stable'
       args:
         executable: /bin/bash
 
@@ -46,14 +48,18 @@
         path: '{{ alacritty_bin_path }}/alacritty'
       register: alacritty_bin_exists
     - name: Move aside current binary
-      ansible.builtin.shell: 'mv {{ alacritty_bin_path }}/alacritty {{ alacritty_bin_path }}/alacritty-bin.{{ ansible_date_time.date }}'
+      ansible.builtin.shell: 
+        cmd: 'mv {{ alacritty_bin_path }}/alacritty {{ alacritty_bin_path }}/alacritty-bin.{{ ansible_date_time.date }}'
       when: alacritty_bin_exists.stat.exists
     - name: Install Alacritty
-      ansible.builtin.shell: 'cp {{ alacritty_install_dir }}/target/release/alacritty {{ alacritty_bin_path }}/'
+      ansible.builtin.shell: 
+        cmd: 'cp {{ alacritty_install_dir }}/target/release/alacritty {{ alacritty_bin_path }}/'
     - name: Install logo
-      ansible.builtin.shell: 'cp {{ alacritty_install_dir }}/extra/logo/alacritty-term.svg /usr/share/pixmaps/Alacritty.svg'
+      ansible.builtin.shell: 
+        cmd: 'cp {{ alacritty_install_dir }}/extra/logo/alacritty-term.svg /usr/share/pixmaps/Alacritty.svg'
     - name: Install desktop entry
-      ansible.builtin.shell: 'desktop-file-install {{ alacritty_install_dir }}/extra/linux/Alacritty.desktop && update-desktop-database'
+      ansible.builtin.shell: 
+        cmd: 'desktop-file-install {{ alacritty_install_dir }}/extra/linux/Alacritty.desktop && update-desktop-database'
 
 - name: Alacritty Terminfo
   become: true
