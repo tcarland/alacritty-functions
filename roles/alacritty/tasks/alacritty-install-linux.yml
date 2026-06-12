@@ -6,6 +6,22 @@
     state: present
   tags: ['term']
 
+- name: Ensure Rustup is installed and configured.
+  become: true
+  tags: ['term']
+  block:
+    - name: Check for Rust
+      ansible.builtin.command: 'rustc --version'
+      register: rust_check
+      ignore_errors: true
+    - name: Install Rust
+      ansible.builtin.shell: 'curl --proto "=https" --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y'
+      when: rust_check.rc != 0
+    - name: Ensure Cargo is in PATH
+      ansible.builtin.shell: 'source $HOME/.cargo/env'
+    - name: Ensure Cargo is set to stable release
+      ansible.builtin.shell: 'rustup override set stable && rustup update stable'
+
 - name: Install Alacritty
   become: true
   tags: ['term']
@@ -16,7 +32,7 @@
         dest: '{{ alacritty_install_dir }}'
         version: '{{ alacritty_version }}'
     - name: Build Alacritty
-      ansible.builtin.shell: 'cd {{ alacritty_install_dir }} && cargo-1.85 build --release'
+      ansible.builtin.shell: 'cd {{ alacritty_install_dir }} && cargo build --release'
     - name: Current binary exists
       ansible.builtin.stat:
         path: '{{ alacritty_bin_path }}/alacritty'
