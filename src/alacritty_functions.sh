@@ -158,6 +158,10 @@ function critty_del_profile()
     local name="$1"
     local config="${ALACRITTY_CONFIG_HOME}/alacritty-${name}.toml"
 
+    if [[ "$name" == "default" ]]; then
+        printf "${C_RED}ERROR${C_NC} Cannot delete the default profile"
+        return 1
+    fi
     if [[ "$name" == "${ALACRITTY_PROFILE_NAME}" ]]; then
         printf "${C_RED}ERROR${C_NC} Profle name to delete cannot be current profile \n"
         return 1
@@ -170,7 +174,7 @@ function critty_del_profile()
         fi
         rm -f $config
     else
-        printf "${C_YEL}Warning${C_NC} Profile not found \n"
+        printf "${C_YEL}Warning${C_NC} Profile '$name' not found \n"
     fi
 
     return 0
