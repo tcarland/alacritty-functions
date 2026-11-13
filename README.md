@@ -1,4 +1,4 @@
-Alacritty Functions v26.06.12
+Alacritty Functions v26.11.12
 =============================
 Timothy C. Arland <tcarland at gmail dot com>
 

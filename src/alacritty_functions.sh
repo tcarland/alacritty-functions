@@ -3,7 +3,7 @@
 #
 #  Timothy C. Arland <tcarland@gmail.com>
 #
-export ALACRITTY_FUNCTIONS_VERSION="v26.06.12"
+export ALACRITTY_FUNCTIONS_VERSION="v26.11.12"
 export ALACRITTY_CONFIG_HOME="${HOME}/.config/alacritty"
 
 export ALACRITTY_CONFIG_TEMPLATE="${ALACRITTY_CONFIG_HOME}/alacritty-template.toml"
@@ -13,6 +13,8 @@ export ALACRITTY_CONFIG="${ALACRITTY_CONFIG_HOME}/alacritty-${ALACRITTY_PROFILE_
 
 export C_NC='\e[0m'
 export C_GRN='\e[32m\e[1m'
+export C_YEL='\e[93m'
+export C_RED='\e[31m\e[1m'
 export C_LGR='\e[32m'
 export C_CYN='\e[96m'
 
@@ -48,6 +50,35 @@ function critty_help()
   critty_set_style  <...>     : Create/Configure a style for the current profile.
                 <style_name>  <theme_name>  <font_size>  <opacity>
     "
+}
+
+
+function critty_ask()
+{
+    local prompt="y/n"
+    local default=
+    local REPLY=
+
+    while true; do
+        if [ "${2:-}" = "Y" ]; then
+            prompt="Y/n"
+            default="Y"
+        elif [ "${2:-}" = "N" ]; then
+            prompt="y/N"
+            default="N"
+        fi
+
+        read -p "$1 [$prompt] " REPLY
+
+        if [ -z "$REPLY" ]; then
+            REPLY="$default"
+        fi
+
+        case "$REPLY" in
+            Y*|y*) return 0 ;;
+            N*|n*) return 1 ;;
+        esac
+    done
 }
 
 
@@ -121,6 +152,30 @@ function critty_profiles()
     return 0
 }
 
+
+function critty_del_profile()
+{
+    local name="$1"
+    local config="${ALACRITTY_CONFIG_HOME}/alacritty-${name}.toml"
+
+    if [[ "$name" == "${ALACRITTY_PROFILE_NAME}" ]]; then
+        printf "${C_RED}ERROR${C_NC} Profle name to delete cannot be current profile \n"
+        return 1
+    fi
+
+    if [ -f $config ]; then
+        critty_ask "The profile config '$config' will be deleted. Continue? " "N"
+        if [ $? -ne 0 ]; then
+            return 1
+        fi
+        rm -f $config
+    else
+        printf "${C_YEL}Warning${C_NC} Profile not found \n"
+    fi
+
+    return 0
+}
+        
 
 function critty_version()
 {
